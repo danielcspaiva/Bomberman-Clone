@@ -37,11 +37,11 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
     let gridHeigth = canvas.height / map1.length;
 
     const makeRandMap = (map) => { // FUNCAO PARA CRIAR MAPAS RANDOMICOS A PARTIR DOS TEMPLATES
-        for (let i = 0; i < map.length; i += 1) {
-            for (let j = 0; j < map[0].length; j += 1) {
-                if (map[i][j] === 0) {
+        for (let j = 0; j < map.length; j += 1) {
+            for (let i = 0; i < map[0].length; i += 1) {
+                if (map[j][i] === 0) {
                     if (Math.random() > 0.70) {
-                        map[i][j] = 3;
+                        map[j][i] = 3;
                     }
                 }
             }
@@ -55,15 +55,15 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
     const renderMap = (map) => { // FUNCAO PARA RENDERIZAR O MAPA
         // let gridWidth = canvas.width / map[0].length;
         // let gridHeigth = canvas.height / map.length;
-        for (let i = 0; i < map.length; i += 1) {
-            for (let j = 0; j < map[0].length; j += 1) {
-                if (map[i][j] === 1) {
+        for (let j = 0; j < map.length; j += 1) {
+            for (let i = 0; i < map[0].length; i += 1) {
+                if (map[j][i] === 1) {
                     context.fillStyle = 'gray';
-                    context.fillRect(j * gridWidth, i * gridHeigth, gridWidth, gridHeigth);
+                    context.fillRect(i * gridWidth, j * gridHeigth, gridWidth, gridHeigth);
                 }
-                if (map[i][j] === 3) {
+                if (map[j][i] === 3) {
                     context.fillStyle = 'orange';
-                    context.fillRect(j * gridWidth, i * gridHeigth, gridWidth, gridHeigth);
+                    context.fillRect(i * gridWidth, j * gridHeigth, gridWidth, gridHeigth);
                 }
             }
         }
@@ -77,7 +77,7 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
         clear();
         renderMap(randMap);
         newPlayer.newPos();
-        newPlayer.checkCollision();
+        // newPlayer.checkCollision();
         newPlayer.update();
         // bomb.update(); SEM SUCESSO NAS BOMBAS
         requestId = window.requestAnimationFrame(updateGameArea);
@@ -106,19 +106,29 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
         }
 
         newPos() {
-            if (this.x >= canvas.width - gridWidth - this.size && this.speedX > 0) {
-                this.x = canvas.width - gridWidth - this.size;
-            } else if (this.x <= gridWidth && this.speedX < 0) {
-                this.x = gridWidth;
-            } else {
-                this.x += this.speedX;
-            }
+            this.x += this.speedX;
             this.gridX = Math.floor((this.x + this.size/2) / gridWidth);
-
+            
             this.y += this.speedY;
             this.gridY = Math.floor((this.y + this.size/2) / gridHeigth);
-            // console.log(this.gridX, this.gridY)
-            console.log(randMap[this.gridX][this.gridY])
+
+            // CHECKS COLLISION DETECTION
+            if (randMap[this.gridY-1][this.gridX] !== 0 && this.y < this.gridY * gridHeigth) {
+                // console.log('top collision');
+                this.y = this.gridY * gridHeigth
+            }
+            if (randMap[this.gridY+1][this.gridX] !== 0 && this.y + this.size > (this.gridY + 1) * gridHeigth) {
+                // console.log('bottom collision');
+                this.y = this.gridY * gridHeigth + gridHeigth - this.size
+            }
+            if (randMap[this.gridY][this.gridX-1] !== 0 && this.x < this.gridX * gridWidth) {
+                // console.log('left collision');
+                this.x = this.gridX * gridWidth;
+            }
+            if (randMap[this.gridY][this.gridX+1] !== 0 && this.x + this.size > (this.gridX + 1) * gridWidth) {
+                // console.log('right collision');
+                this.x = this.gridX * gridWidth + gridWidth - this.size;
+            }
         }
 
         dropBomb() {
@@ -128,19 +138,7 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
         }
 
         checkCollision() {
-            // console.log(`top = ${this.y + this.size} obs = ${this.gridY * gridHeigth + gridHeigth}`)
-            // if (randMap[this.gridX][this.gridY-1] !== 0 && this.y < this.gridY * gridHeigth) {
-            //     console.log('top collision');
-            //     console.log(this.y)
-            //     console.log(this.gridX, this.gridY)
-            //     console.log(randMap[this.gridX][this.gridY])
-
-            //     this.y = this.gridY * gridHeigth
-            // } 
-            // else if (randMap[this.gridX][this.gridY+1] !== 0 && this.y + this.size > (this.gridY + 1) * gridHeigth) {
-            //     console.log('bottom collision');
-            //     this.y = this.gridY * gridHeigth + gridHeigth - this.size
-            // }
+            
         }
     }
 
