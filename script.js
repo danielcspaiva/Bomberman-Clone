@@ -6,6 +6,33 @@ window.onload = () => {
         requestId = window.requestAnimationFrame(updateGameArea);
     }
 
+    let map = [
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+        [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+        [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+        [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+        [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    ];
+
+    const renderMap = () => {
+        let gridWidth = canvas.width/map[0].length
+        let gridHeigth = canvas.height/map.length
+        for (let i = 0; i < map.length; i += 1) {
+            for (let j = 0; j < map[0].length; j += 1) {
+                if (map[i][j] === 1) {
+                    context.fillStyle = 'gray';
+                    context.fillRect(j * gridWidth, i * gridHeigth, gridWidth, gridHeigth)
+                }
+            }
+        }
+    }
+
     let myGameArea = {
         canvas: document.getElementById("canvas"),
         frames: 0,
@@ -18,6 +45,7 @@ window.onload = () => {
 
     const updateGameArea = () => {
         clear();
+        renderMap()
         newPlayer.newPos();
         newPlayer.update();
         requestId = window.requestAnimationFrame(updateGameArea);
@@ -26,15 +54,16 @@ window.onload = () => {
     class Player {
         constructor() {
             this.lives = 10;
-            this.x = 25;
-            this.y = 25;
+            this.x = 60;
+            this.y = 60;
             this.speed = 2.5;
             this.speedX = 0;
             this.speedY = 0;
         }
 
         update() {
-            context.fillRect(this.x, this.y, 50, 50)
+            context.fillStyle = 'blue';
+            context.fillRect(this.x, this.y, 30, 30)
         }
 
         newPos() {
@@ -67,7 +96,7 @@ window.onload = () => {
         }
 
     }
-    
+
     document.onkeydown = function (e) {
         switch (e.keyCode) {
             case 65: // a
