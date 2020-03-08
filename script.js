@@ -1,9 +1,8 @@
 window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
     const startGame = () => { // FUNCAO DE START GAME
-        console.log('start function');
         context = canvas.getContext("2d");
         requestId = window.requestAnimationFrame(updateGameArea);
-        randMap = makeRandMap(map1)
+        randMap = makeRandMap(map1);
     }
 
     let map1 = [ // MAPA TEMPLATE 1
@@ -34,6 +33,9 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
     ];
 
+    let gridWidth = canvas.width / map1[0].length;
+    let gridHeigth = canvas.height / map1.length;
+
     const makeRandMap = (map) => { // FUNCAO PARA CRIAR MAPAS RANDOMICOS A PARTIR DOS TEMPLATES
         for (let i = 0; i < map.length; i += 1) {
             for (let j = 0; j < map[0].length; j += 1) {
@@ -44,22 +46,24 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
                 }
             }
         }
-        map[1][1] = 0
+        map[1][1] = 0;
+        map[1][2] = 0;
+        map[2][1] = 0;
         return map;
     }
 
     const renderMap = (map) => { // FUNCAO PARA RENDERIZAR O MAPA
-        let gridWidth = canvas.width / map[0].length
-        let gridHeigth = canvas.height / map.length
+        // let gridWidth = canvas.width / map[0].length;
+        // let gridHeigth = canvas.height / map.length;
         for (let i = 0; i < map.length; i += 1) {
             for (let j = 0; j < map[0].length; j += 1) {
                 if (map[i][j] === 1) {
                     context.fillStyle = 'gray';
-                    context.fillRect(j * gridWidth, i * gridHeigth, gridWidth, gridHeigth)
+                    context.fillRect(j * gridWidth, i * gridHeigth, gridWidth, gridHeigth);
                 }
                 if (map[i][j] === 3) {
                     context.fillStyle = 'orange';
-                    context.fillRect(j * gridWidth, i * gridHeigth, gridWidth, gridHeigth)
+                    context.fillRect(j * gridWidth, i * gridHeigth, gridWidth, gridHeigth);
                 }
             }
         }
@@ -71,8 +75,9 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
 
     const updateGameArea = () => { // FUNCAO QUE ATUALIZA O CANVAS
         clear();
-        renderMap(randMap)
+        renderMap(randMap);
         newPlayer.newPos();
+        newPlayer.checkCollision();
         newPlayer.update();
         // bomb.update(); SEM SUCESSO NAS BOMBAS
         requestId = window.requestAnimationFrame(updateGameArea);
@@ -83,62 +88,59 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
             this.lives = 10;
             this.x = 60;
             this.y = 60;
-            this.speed = 2.5;
+            this.speed = 3;
             this.speedX = 0;
             this.speedY = 0;
             this.size = 30;
-            this.top = this.y
-            this.bottom = this.y + this.size
-            this.left = this.x
-            this.right = this.x + this.size
+            this.top = this.y;
+            this.bottom = this.y + this.size;
+            this.left = this.x;
+            this.right = this.x + this.size;
+            this.gridY = Math.floor((this.y + this.size/2) / gridHeigth);
+            this.gridX = Math.floor((this.x + this.size/2) / gridWidth);
         }
 
         update() {
             context.fillStyle = 'blue';
-            context.fillRect(this.x, this.y, this.size, this.size)
+            context.fillRect(this.x, this.y, this.size, this.size);
         }
 
         newPos() {
-            if (this.x >= canvas.width - 50 - this.size && this.speedX > 0) {
-                this.x = canvas.width - 50 - this.size
-            } else if (this.x <= 50 && this.speedX < 0) {
-                this.x = 50
+            if (this.x >= canvas.width - gridWidth - this.size && this.speedX > 0) {
+                this.x = canvas.width - gridWidth - this.size;
+            } else if (this.x <= gridWidth && this.speedX < 0) {
+                this.x = gridWidth;
             } else {
                 this.x += this.speedX;
             }
+            this.gridX = Math.floor((this.x + this.size/2) / gridWidth);
 
-            if (this.y >= canvas.height - 50 - this.size && this.speedY > 0) {
-                this.y = canvas.height - 50 - this.size
-            } else if (this.y <= 50 && this.speedY < 0) {
-                this.y = 50
-            } else {
-                this.y += this.speedY;
-            }
-        }
-
-        left() {
-            return this.x;
-        }
-        right() {
-            if (this.x + 50 < canvas.width) {
-                console.log('bateu')
-                return this.x + this.width;
-            } else {
-                console.log('nao bateu')
-                return this.x;
-            }
-        }
-        top() {
-            return this.y;
-        }
-        bottom() {
-            return this.y + this.height;
+            this.y += this.speedY;
+            this.gridY = Math.floor((this.y + this.size/2) / gridHeigth);
+            // console.log(this.gridX, this.gridY)
+            console.log(randMap[this.gridX][this.gridY])
         }
 
         dropBomb() {
-            console.log('dropBomb')
+            console.log('dropBomb');
             // let bomb = new Bomb (this.x, this.y)
-            let bomb = new Bomb()
+            let bomb = new Bomb();
+        }
+
+        checkCollision() {
+            // console.log(`top = ${this.y + this.size} obs = ${this.gridY * gridHeigth + gridHeigth}`)
+            // if (randMap[this.gridX][this.gridY-1] !== 0 && this.y < this.gridY * gridHeigth) {
+            //     console.log('top collision');
+            //     console.log(this.y)
+            //     console.log(this.gridX, this.gridY)
+            //     console.log(randMap[this.gridX][this.gridY])
+
+            //     this.y = this.gridY * gridHeigth
+            // } 
+            // else if (randMap[this.gridX][this.gridY+1] !== 0 && this.y + this.size > (this.gridY + 1) * gridHeigth) {
+            //     console.log('bottom collision');
+            //     this.y = this.gridY * gridHeigth + gridHeigth - this.size
+            // }
         }
     }
 
