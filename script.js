@@ -62,6 +62,9 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
         map[1][1] = 0;
         map[1][2] = 0;
         map[2][1] = 0;
+        map[9][13] = 0;
+        map[8][13] = 0;
+        map[9][12] = 0;
         return map;
     }
     
@@ -100,14 +103,21 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
         newPlayer.newPos();
         newPlayer.update();
         newPlayer.checkDamage();
+        if (newPlayer2) {
+            newPlayer2.newPos();
+            newPlayer2.update();
+            newPlayer2.checkDamage();
+        }
         requestId = window.requestAnimationFrame(updateGameArea);
     }
     
     class Player { // CLASE PLAYER
-        constructor() {
-            this.x = 60;
-            this.y = 60;
-            this.speed = 3;
+        constructor(x, y, color, position) {
+            this.healthPosition = position;
+            this.x = x;
+            this.y = y;
+            this.color = color;
+            this.speed = 5;
             this.speedX = 0;
             this.speedY = 0;
             this.size = 30;
@@ -118,7 +128,7 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
         }
         
         update() {
-            context.fillStyle = 'blue';
+            context.fillStyle = this.color;
             context.fillRect(this.x, this.y, this.size, this.size);
         }
         
@@ -130,19 +140,19 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
             this.gridY = Math.floor((this.y + this.size/2) / gridHeigth);
             
             // CHECKS COLLISION DETECTION
-            if (randMap[this.gridY-1][this.gridX] !== 0 && this.y < this.gridY * gridHeigth) { 
+            if (randMap[this.gridY-1][this.gridX] !== 0 && randMap[this.gridY-1][this.gridX] !== 4 && this.y < this.gridY * gridHeigth) { 
                 // COLISAO ACIMA
                 this.y = this.gridY * gridHeigth;
             }
-            if (randMap[this.gridY+1][this.gridX] !== 0 && this.y + this.size > (this.gridY + 1) * gridHeigth) { 
+            if (randMap[this.gridY+1][this.gridX] !== 0 && randMap[this.gridY+1][this.gridX] !== 4 && this.y + this.size > (this.gridY + 1) * gridHeigth) { 
                 // COLISAO ABAIXO
                 this.y = this.gridY * gridHeigth + gridHeigth - this.size;
             }
-            if (randMap[this.gridY][this.gridX-1] !== 0 && this.x < this.gridX * gridWidth) { 
+            if (randMap[this.gridY][this.gridX-1] !== 0 && randMap[this.gridY][this.gridX-1] !== 4 && this.x < this.gridX * gridWidth) { 
                 // COLISAO A ESQUERDA
                 this.x = this.gridX * gridWidth;
             }
-            if (randMap[this.gridY][this.gridX+1] !== 0 && this.x + this.size > (this.gridX + 1) * gridWidth) { 
+            if (randMap[this.gridY][this.gridX+1] !== 0 && randMap[this.gridY][this.gridX+1] !== 4 && this.x + this.size > (this.gridX + 1) * gridWidth) { 
                 // COLISAO A DIREITA
                 this.x = this.gridX * gridWidth + gridWidth - this.size;
             }
@@ -189,41 +199,82 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
                 this.hearts -= 1;
             }
             context.font = "26px Sen";
-            context.fillStyle = 'white';
-            context.fillText(`Health: ${this.hearts}`, 560, 35);
+            context.fillStyle = this.color;
+            context.fillText(`Health: ${this.hearts}`, this.healthPosition, 35);
         }
     }
-    
+
     document.onkeydown = function (e) { // EVENT LISTENER PARA CAPTURAR OS COMANDOS
         switch (e.keyCode) {
-            case 65: // a
+            case 32: // spacebar
+                newPlayer.placeBomb();
+                break;
             case 37: // left arrow
                 newPlayer.speedX = newPlayer.speed * -1;
                 break;
-            case 87: // w
             case 38: // arrow up
                 newPlayer.speedY = newPlayer.speed * -1;
                 break;
-            case 68: // d
             case 39: // right arrow
                 newPlayer.speedX = newPlayer.speed;
                 break;
-            case 83: // s
             case 40: // arrow down
                 newPlayer.speedY = newPlayer.speed;
                 break;
-            case 32: // spacebar
-                newPlayer.placeBomb();
+        }
+        switch (e.keyCode) {
+            case 16: // left shit
+                newPlayer2.placeBomb();
+                break;
+            case 65: // a
+                newPlayer2.speedX = newPlayer2.speed * -1;
+                break;
+            case 87: // w
+                newPlayer2.speedY = newPlayer2.speed * -1;
+                break;
+            case 68: // d
+                newPlayer2.speedX = newPlayer2.speed;
+                break;
+            case 83: // s
+                newPlayer2.speedY = newPlayer2.speed;
                 break;
         }
     }
     
     document.onkeyup = function (e) { // EVENT LISTENER PARA PARAR OS COMANDOS
-        newPlayer.speedX = 0;
-        newPlayer.speedY = 0;
+        switch (e.keyCode) {
+            case 37: // left arrow
+                newPlayer.speedX = 0;
+                break;
+            case 38: // arrow up
+                newPlayer.speedY = 0;
+                break;
+            case 39: // right arrow
+                newPlayer.speedX = 0;
+                break;
+            case 40: // arrow down
+                newPlayer.speedY = 0;
+                break;
+        }
+        switch (e.keyCode) {
+            case 65: // a
+                newPlayer2.speedX = 0;
+                break;
+            case 87: // w
+                newPlayer2.speedY = 0;
+                break;
+            case 68: // d
+                newPlayer2.speedX = 0;
+                break;
+            case 83: // s
+                newPlayer2.speedY = 0;
+                break;
+        }
     }
     
     startGame(); // CHAMADA PARA FUNCAO DE START GAME
     
-    let newPlayer = new Player() // CRIACAO DE UM NOVO PLAYER
+    let newPlayer = new Player(660, 460, 'purple', 575)
+    // let newPlayer2 = 0 // CRIACAO DE UM NOVO PLAYER
+    let newPlayer2 = new Player(60, 60, 'blue', 50) // CRIACAO DE UM NOVO PLAYER
 }
