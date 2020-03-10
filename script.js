@@ -1,30 +1,58 @@
 window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
 
-    // let walkingSprites = new Image();
-    // walkingSprites.onLoad = new function() {
-    //     walkingSprites.ImageReady = true;
-    //     console.log(walkingSprites)
-    //     console.log(typeof(walkingSprites))
-    // }
-    // walkingSprites.src = './Sprites/Walking.png'
-
     let start = false;
+    let players = 1;
+    context = canvas.getContext("2d");
 
     const menu = () => {
-        context = canvas.getContext("2d");
-        context.font = "26px Sen";
-        context.fillText('PRESS ENTER', canvas.width / 2 - 80, canvas.height / 2);
+        renderMap(mapMenu)
+        for (let i = 0; i < mapMenu[0].length; i += 1) {
+            context.drawImage(solidBlock, 50 * i, 0, 50, 50)
+        }
+        // context.clearRect(0, 0, canvas.width, canvas.height);
+        context.drawImage(superBomberman, 100, -50, 500, 500)
+        context.font = "26px silkscreenbold";
+        context.fillStyle = 'white';
+        context.fillText('single player', canvas.width / 2 - 100, canvas.height / 1.4);
+        context.fillText('MULTI PLAYER', canvas.width / 2 - 100, canvas.height / 1.25);
+
+        // if(players === 1) {
+        //     context.fillText('>', canvas.width / 2 - 130, canvas.height / 1.4);
+        // }
+        // if(players === 2) {
+        //     context.fillText('>', canvas.width / 2 - 130, canvas.height / 1.25);
+        // }
+        // console.log(players)
+        // document.onkeydown = function (e) { // EVENT LISTENER PARA CAPTURAR OS COMANDOS
+        //     switch (e.keyCode) {
+        //         case 38: // arrow up
+        //             players = 1;
+        //             break;
+        //         case 40: // arrow down
+        //             players = 2;
+        //             break;
+        //     }
+        //     if (e.keyCode === 13) {
+        //         if (!start) {
+        //             startGame();
+        //             start = true;
+        //         } else {
+        //             window.location.reload();
+        //         }
+        //     }
+        // }
+        // requestId = window.requestAnimationFrame(menu);
     }
+
+    // menu()
+// }
     const startGame = () => { // FUNCAO DE START GAME
-        switch (Math.floor(Math.random() * 3)) {
+        switch (Math.floor(Math.random() * 2)) {
             case 0:
                 randMap = makeRandMap(map1);
                 break;
             case 1:
                 randMap = makeRandMap(map2);
-                break;
-            case 2:
-                randMap = makeRandMap(map3);
                 break;
         }
         updateGameArea();
@@ -50,26 +78,29 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
     const renderMap = (map) => { // FUNCAO PARA RENDERIZAR O MAPA
         for (let j = 0; j < map.length; j += 1) {
             for (let i = 0; i < map[0].length; i += 1) {
+                context.drawImage(field, i * gridWidth, j * gridHeigth + offset, 50, 50)
                 switch (map[j][i]) {
                     case 1:
-                        context.fillStyle = 'gray';
-                        context.fillRect(i * gridWidth, j * gridHeigth, gridWidth, gridHeigth);
+                        // context.fillStyle = 'gray';
+                        // context.fillRect(i * gridWidth, j * gridHeigth, gridWidth, gridHeigth);
+                        context.drawImage(solidBlock, i * gridWidth, j * gridHeigth + offset, 50, 50)
                         break;
                     case 2:
-                        context.fillStyle = 'orange';
-                        context.fillRect(i * gridWidth, j * gridHeigth, gridWidth, gridHeigth);
+                        // context.fillStyle = 'orange';
+                        // context.fillRect(i * gridWidth, j * gridHeigth, gridWidth, gridHeigth);
+                        context.drawImage(wall, i * gridWidth, j * gridHeigth + offset, 50, 50)
                         break;
                     case 3:
-                        context.fillStyle = 'black';
-                        context.fillRect(i * gridWidth + 10, j * gridHeigth + 10, gridWidth - 20, gridHeigth - 20);
+                        // context.fillStyle = 'black';
+                        // context.fillRect(i * gridWidth + 10, j * gridHeigth + 10, gridWidth - 20, gridHeigth - 20);
+                        context.drawImage(bomb, 0, 0, 19, 20, i * gridWidth, j * gridHeigth + offset, 50, 50)
+                        // context.drawImage(bomberman, this.srcx, this.srcy, this.width, this.height, this.x, this.y - 10, this.width * 1.8, this.height * 1.8)
+                        break;
                         break;
                     case 4:
-                        context.fillStyle = 'red';
-                        context.fillRect(i * gridWidth + 10, j * gridHeigth + 10, gridWidth - 20, gridHeigth - 20);
-                        break;
-                    case 5:
-                        context.fillStyle = 'yellow';
-                        context.fillRect(i * gridWidth + 10, j * gridHeigth + 10, gridWidth - 20, gridHeigth - 20);
+                        // context.fillStyle = 'red';
+                        // context.fillRect(i * gridWidth + 10, j * gridHeigth + 10, gridWidth - 20, gridHeigth - 20);
+                        context.drawImage(explosion, 45, 0, 20, 20, i * gridWidth, j * gridHeigth + offset, 50, 50)
                         break;
                 }
             }
@@ -80,11 +111,17 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
         context.clearRect(0, 0, canvas.width, canvas.height);
     }
 
+    const statusBar = () => {
+        context.drawImage(statusBarSprite, 50, 0, 650, 50)
+        context.drawImage(solidBlock, 0, 0, 50, 50)
+        context.drawImage(solidBlock, 700, 0, 50, 50)
+    }
+
     const gameOver = (player) => {
         setTimeout(() => {
             window.cancelAnimationFrame(requestId);
             clear();
-            context.font = "26px Sen";
+            // context.font = "26px Sen";
             context.fillText(`${player.name} LOST`, canvas.width / 2 - 80, canvas.height / 2);
             context.fillText(`PRESS ENTER TO PLAY AGAIN`, canvas.width / 2 - 200, canvas.height / 3);
         }, 500);
@@ -94,6 +131,7 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
         frames += 1;
         clear();
         renderMap(randMap);
+        statusBar();
         newPlayer.newPos();
         newPlayer.update();
         newPlayer.checkDamage();
@@ -107,7 +145,7 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
                 randx = Math.floor(Math.random() * map1[0].length);
                 randy = Math.floor(Math.random() * map1.length);
             } else {
-                enemies.push(new Player(randx * 50 + 10, randy * 50 + 10, 'white', 100, 5, ''))
+                enemies.push(new Player(randx * 50 + 10, randy * 50 + 10, 'white', 100, 5, enemies))
                 randx = Math.floor(Math.random() * map1[0].length);
                 randy = Math.floor(Math.random() * map1.length);
             }
@@ -122,7 +160,7 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
                     newPlayer2.checkDamage(1);
                 }
             }
-            if(enemy.checkEnemyDied()) enemies.splice(i, 1);
+            if (enemy.checkEnemyDied()) enemies.splice(i, 1);
         });
         requestId = window.requestAnimationFrame(updateGameArea);
     }
@@ -134,7 +172,7 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
             this.x = x;
             this.y = y;
             this.color = color;
-            this.speed = 5;
+            this.speed = 3;
             this.speedX = 0;
             this.speedY = 0;
             this.size = 30;
@@ -148,16 +186,15 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
             this.srcy = 0;
             this.width = 16;
             this.height = 24;
-            this.img = img;
-            this.direction = Math.floor(Math.random()*4);
-
+            this.img = bomberman;
+            this.direction = Math.floor(Math.random() * 4);
         }
 
         update() {
             context.fillStyle = this.color;
-            context.fillRect(this.x, this.y, this.size, this.size);
+            // context.fillRect(this.x, this.y, this.size, this.size);
             // console.log(this.img)
-            // context.drawImage(this.img, this.srcx, this.srcy, this.width, this.height, this.x, this.y, this.width*2, this.height*2)
+            context.drawImage(bomberman, this.srcx, this.srcy, this.width, this.height, this.x, this.y - 20  + offset, this.width * 2.1, this.height * 2.1)
         }
 
         newPos() {
@@ -224,18 +261,18 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
 
         checkDamage(damage = 0) {
             if (randMap[this.gridY][this.gridX] === 4) {
-                this.hearts -= 10;
-                if (this.hearts < 0) {
-                    this.hearts = 0;
-                    gameOver(this)
-                }
+                this.hearts -= 5;
             }
             this.hearts -= damage;
+            if (this.hearts < 0) {
+                this.hearts = 0;
+                gameOver(this)
+            }
             this.hearts = Math.round(this.hearts)
-            context.font = "26px Sen";
+            // context.font = "26px Sen";
             context.fillStyle = this.color;
             // this.hearts = Math.round(this.hearts)
-            context.fillText(`Health: ${this.hearts/10}`, this.healthPosition, 35);
+            context.fillText(`${this.name}: ${this.hearts}`, this.healthPosition, 35);
         }
 
         checkEnemyDied() {
@@ -247,10 +284,6 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
             }
         }
 
-        // randomDirection() {
-        //     return Math.floor(Math.random() * 4)
-        // }
-
         randomMove() {
             switch (this.direction) {
                 case 0:
@@ -259,7 +292,7 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
                     if (randMap[this.gridY][this.gridX + 1] !== 0 && randMap[this.gridY][this.gridX + 1] !== 4 && this.x + this.size > (this.gridX + 1) * gridWidth) {
                         // COLISAO A DIREITA
                         this.x = this.gridX * gridWidth + gridWidth - this.size;
-                        this.direction = Math.floor(Math.random()*4)
+                        this.direction = Math.floor(Math.random() * 4)
                     }
                     break;
                 case 1:
@@ -268,7 +301,7 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
                     if (randMap[this.gridY][this.gridX - 1] !== 0 && randMap[this.gridY][this.gridX - 1] !== 4 && this.x < this.gridX * gridWidth) {
                         // COLISAO A ESQUERDA
                         this.x = this.gridX * gridWidth;
-                        this.direction = Math.floor(Math.random()*4)
+                        this.direction = Math.floor(Math.random() * 4)
                     }
                     break;
                 case 2:
@@ -277,7 +310,7 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
                     if (randMap[this.gridY + 1][this.gridX] !== 0 && randMap[this.gridY + 1][this.gridX] !== 4 && this.y + this.size > (this.gridY + 1) * gridHeigth) {
                         // COLISAO ABAIXO
                         this.y = this.gridY * gridHeigth + gridHeigth - this.size;
-                        this.direction = Math.floor(Math.random()*4)
+                        this.direction = Math.floor(Math.random() * 4)
                     }
                     break;
                 case 3:
@@ -286,12 +319,13 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
                     if (randMap[this.gridY - 1][this.gridX] !== 0 && randMap[this.gridY - 1][this.gridX] !== 4 && this.y < this.gridY * gridHeigth) {
                         // COLISAO ACIMA
                         this.y = this.gridY * gridHeigth;
-                        this.direction = Math.floor(Math.random()*4)
+                        this.direction = Math.floor(Math.random() * 4)
                     }
                     break;
             }
-            context.fillStyle = this.color;
-            context.fillRect(this.x, this.y, this.size, this.size);
+            context.drawImage(enemy, 3, 3, 19, 30, this.x, this.y - 20 + offset, 30, 50)
+            // context.fillStyle = this.color;
+            // context.fillRect(this.x, this.y, this.size, this.size);
 
         }
     }
@@ -314,6 +348,7 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
                 newPlayer.right = false;
                 newPlayer.up = true;
                 newPlayer.down = false;
+                players = 1;
                 break;
             case 39: // right arrow
                 newPlayer.speedX = newPlayer.speed;
@@ -328,6 +363,7 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
                 newPlayer.right = false;
                 newPlayer.up = false;
                 newPlayer.down = true;
+                players = 2;
                 break;
         }
         switch (e.keyCode) {
@@ -389,15 +425,14 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
             case 83: // s
                 newPlayer2.speedY = 0;
                 break;
-            }
         }
-        
-        menu(); // CHAMADA PARA FUNCAO DE START GAME
-        
-        
-        let newPlayer = new Player(60, 60, 'blue', 50, 1000, 'Daniel') // CRIACAO DE UM NOVO PLAYER
-        let newPlayer2 = new Player(660, 460, 'purple', 575, 1000, 'Gabriel')
-        // let newPlayer2 = 0 // CRIACAO DE UM NOVO PLAYER
+    }
+
+    menu(); // CHAMADA PARA FUNCAO DE START GAME
+
+    let newPlayer = new Player(60, 60, 'white', 120, 1000, 'Player 1', bomberman) // CRIACAO DE UM NOVO PLAYER
+    let newPlayer2 = new Player(660, 460, 'white', 530, 1000, 'Player 2', bomberman)
+    // let newPlayer2 = 0 // CRIACAO DE UM NOVO PLAYER
 
     let enemies = []
 }
