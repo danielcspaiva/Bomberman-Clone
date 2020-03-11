@@ -284,7 +284,7 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
                     }
                 }, 450);
                 randMap[bomby][bombx] = 4;
-                // bombSound2.play()
+                bombSound2.play()
                 if (randMap[bomby - 1][bombx] !== 1 && randMap[bomby - 1][bombx] !== 3) {
                     randMap[bomby - 1][bombx] = 4;
                     // drawExplosion(53, 26, bombx, bomby)
