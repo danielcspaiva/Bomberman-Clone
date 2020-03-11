@@ -17,32 +17,32 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
         context.fillText('single player', canvas.width / 2 - 100, canvas.height / 1.4);
         context.fillText('MULTI PLAYER', canvas.width / 2 - 100, canvas.height / 1.25);
 
-        // if(players === 1) {
-        //     context.fillText('>', canvas.width / 2 - 130, canvas.height / 1.4);
-        // }
-        // if(players === 2) {
-        //     context.fillText('>', canvas.width / 2 - 130, canvas.height / 1.25);
-        // }
-        // console.log(players)
-        // document.onkeydown = function (e) { // EVENT LISTENER PARA CAPTURAR OS COMANDOS
-        //     switch (e.keyCode) {
-        //         case 38: // arrow up
-        //             players = 1;
-        //             break;
-        //         case 40: // arrow down
-        //             players = 2;
-        //             break;
-        //     }
-        //     if (e.keyCode === 13) {
-        //         if (!start) {
-        //             startGame();
-        //             start = true;
-        //         } else {
-        //             window.location.reload();
-        //         }
-        //     }
-        // }
-        // requestId = window.requestAnimationFrame(menu);
+    //     if(players === 1) {
+    //         context.fillText('>', canvas.width / 2 - 130, canvas.height / 1.4);
+    //     }
+    //     if(players === 2) {
+    //         context.fillText('>', canvas.width / 2 - 130, canvas.height / 1.25);
+    //     }
+    //     console.log(players)
+    //     document.onkeydown = function (e) { // EVENT LISTENER PARA CAPTURAR OS COMANDOS
+    //         switch (e.keyCode) {
+    //             case 38: // arrow up
+    //                 players = 1;
+    //                 break;
+    //             case 40: // arrow down
+    //                 players = 2;
+    //                 break;
+    //         }
+    //         if (e.keyCode === 13) {
+    //             if (!start) {
+    //                 startGame();
+    //                 start = true;
+    //             } else {
+    //                 window.location.reload();
+    //             }
+    //         }
+    //     }
+    //     requestId = window.requestAnimationFrame(menu);
     }
 
     // menu()
@@ -130,6 +130,7 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
     }
 
     const gameOver = (player) => {
+        level1.pause()
         setTimeout(() => {
             window.cancelAnimationFrame(requestId);
             clear();
@@ -496,7 +497,7 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
 
     menu(); // CHAMADA PARA FUNCAO DE START GAME
 
-    let newPlayer = new Player(60, 60, 'white', 135, 1000, 'Player 1', bomberman) // CRIACAO DE UM NOVO PLAYER
+    let newPlayer = new Player(60, 60, 'white', 135, 100, 'Player 1', bomberman) // CRIACAO DE UM NOVO PLAYER
     let newPlayer2 = new Player(660, 460, 'white', 550, 100, 'Player 2', bomberman2)
     // let newPlayer2 = 0 // CRIACAO DE UM NOVO PLAYER
 
