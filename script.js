@@ -181,20 +181,22 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
             this.bombPower = 2; // NAO IMPLEMENTADO
             this.hearts = hearts;
             this.right = this.up = this.right = false;
-            this.down = true;
+            this.down = false;
             this.srcx = 0;
             this.srcy = 0;
             this.width = 16;
             this.height = 24;
-            this.img = bomberman;
+            this.img = img;
             this.direction = Math.floor(Math.random() * 4);
+            this.countAnim = 0;
         }
 
         update() {
             context.fillStyle = this.color;
             // context.fillRect(this.x, this.y, this.size, this.size);
             // console.log(this.img)
-            context.drawImage(bomberman, this.srcx, this.srcy, this.width, this.height, this.x, this.y - 20  + offset, this.width * 2.1, this.height * 2.1)
+            this.sprites()
+            context.drawImage(this.img, this.srcx, this.srcy, this.width, this.height, this.x, this.y - 20  + offset, this.width * 2.1, this.height * 2.1)
         }
 
         newPos() {
@@ -220,6 +222,27 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
             if (randMap[this.gridY][this.gridX + 1] !== 0 && randMap[this.gridY][this.gridX + 1] !== 4 && this.x + this.size > (this.gridX + 1) * gridWidth) {
                 // COLISAO A DIREITA
                 this.x = this.gridX * gridWidth + gridWidth - this.size;
+            }
+        }
+
+        sprites() {
+            if(this.down) {
+                this.srcy = 0;
+            }
+            if (this.right) {
+                this.srcy = 26;
+            }
+            if (this.up) {
+                this.srcy = 51;
+            }
+            if (this.left) {
+                this.srcy = 76;
+            }
+            // this.countAnim = 0;
+            if (this.down || this.right || this.up || this.left) {
+                this.countAnim += 1;
+                if (this.countAnim > 25) this.countAnim = 0;
+                this.srcx = Math.floor(this.countAnim / 5) * (this.width + 1);
             }
         }
 
@@ -372,15 +395,31 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
                 break;
             case 65: // a
                 newPlayer2.speedX = newPlayer2.speed * -1;
+                newPlayer2.left = true;
+                newPlayer2.right = false;
+                newPlayer2.up = false;
+                newPlayer2.down = false;
                 break;
             case 87: // w
                 newPlayer2.speedY = newPlayer2.speed * -1;
+                newPlayer2.left = false;
+                newPlayer2.right = false;
+                newPlayer2.up = true;
+                newPlayer2.down = false;
                 break;
             case 68: // d
                 newPlayer2.speedX = newPlayer2.speed;
+                newPlayer2.left = false;
+                newPlayer2.right = true;
+                newPlayer2.up = false;
+                newPlayer2.down = false;
                 break;
             case 83: // s
                 newPlayer2.speedY = newPlayer2.speed;
+                newPlayer2.left = false;
+                newPlayer2.right = false;
+                newPlayer2.up = false;
+                newPlayer2.down = true;
                 break;
         }
         if (e.keyCode === 13) {
@@ -409,21 +448,25 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
                 break;
             case 40: // arrow down
                 newPlayer.speedY = 0;
-                newPlayer.down = true;
+                newPlayer.down = false;
                 break;
         }
         switch (e.keyCode) {
             case 65: // a
                 newPlayer2.speedX = 0;
+                newPlayer2.left = false;
                 break;
             case 87: // w
                 newPlayer2.speedY = 0;
+                newPlayer2.up = false;
                 break;
             case 68: // d
                 newPlayer2.speedX = 0;
+                newPlayer2.right = false;
                 break;
             case 83: // s
                 newPlayer2.speedY = 0;
+                newPlayer2.down = false;
                 break;
         }
     }
@@ -431,7 +474,7 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
     menu(); // CHAMADA PARA FUNCAO DE START GAME
 
     let newPlayer = new Player(60, 60, 'white', 120, 1000, 'Player 1', bomberman) // CRIACAO DE UM NOVO PLAYER
-    let newPlayer2 = new Player(660, 460, 'white', 530, 1000, 'Player 2', bomberman)
+    let newPlayer2 = new Player(660, 460, 'white', 530, 1000, 'Player 2', bomberman2)
     // let newPlayer2 = 0 // CRIACAO DE UM NOVO PLAYER
 
     let enemies = []

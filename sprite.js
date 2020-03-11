@@ -8,7 +8,13 @@ let bomberman = new Image()
 bomberman.onLoad = new function() {
     bomberman.ImageReady = true;
 }
-bomberman.src = './Sprites/Walking.png'
+bomberman.src = './Sprites/walking-white.png'
+
+let bomberman2 = new Image()
+bomberman2.onLoad = new function() {
+    bomberman2.ImageReady = true;
+}
+bomberman2.src = './Sprites/walking-black.png'
 
 let solidBlock = new Image()
 solidBlock.onload = new function() {
