@@ -1,9 +1,9 @@
-# Project - 1: Bomberman-Clone
+# Project - 1: Bomberman Clone
 Bomberman Clone
 
 
-# Installation
+## Installation
 
-# Release history
+## Release history
 
-# contributing
+## contributing
