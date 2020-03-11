@@ -4,6 +4,10 @@
 ## Getting Started
 This project is a Bomberman clone built with vanilla Javascript, HTML and CSS as part of the Ironhack Web Development bootcamp. These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. This project is also deployed at SITE and available to play.
 
+## Screenshot
+
+![](Screenshots/screenshot-1.png)
+
 ## Installing
 
 Clone or download this repository. Run the index.html and let me know what you think.
