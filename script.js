@@ -5,6 +5,7 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
     context = canvas.getContext("2d");
 
     const menu = () => {
+        title.play()
         renderMap(mapMenu)
         for (let i = 0; i < mapMenu[0].length; i += 1) {
             context.drawImage(solidBlock, 50 * i, 0, 50, 50)
@@ -47,6 +48,8 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
     // menu()
 // }
     const startGame = () => { // FUNCAO DE START GAME
+        title.pause()
+        startSound.play()
         switch (Math.floor(Math.random() * 2)) {
             case 0:
                 randMap = makeRandMap(map1);
@@ -55,7 +58,10 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
                 randMap = makeRandMap(map2);
                 break;
         }
-        updateGameArea();
+        setTimeout(() => {
+            level1.play()
+            updateGameArea()
+        }, 500);
     }
 
     const makeRandMap = (map) => { // FUNCAO PARA CRIAR MAPAS RANDOMICOS A PARTIR DOS TEMPLATES
@@ -112,16 +118,25 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
     }
 
     const statusBar = () => {
-        context.drawImage(statusBarSprite, 50, 0, 650, 50)
+        context.drawImage(cleanStatusBar, 50, 0, 650, 50)
+        context.drawImage(heart, 103, 13, 25, 25)
         context.drawImage(solidBlock, 0, 0, 50, 50)
         context.drawImage(solidBlock, 700, 0, 50, 50)
+        context.drawImage(whiteHead, 65, 10, 30, 30)
+        if (newPlayer2) {
+            context.drawImage(heart, 618, 13, 25, 25)
+            context.drawImage(blackHead, 650, 10, 30, 30);
+        }
     }
 
     const gameOver = (player) => {
         setTimeout(() => {
             window.cancelAnimationFrame(requestId);
             clear();
-            // context.font = "26px Sen";
+            for (let i = 0; i < mapMenu[0].length; i += 1) {
+                context.drawImage(solidBlock, 50 * i, 0, 50, 50)
+            }
+            renderMap(mapMenu);
             context.fillText(`${player.name} LOST`, canvas.width / 2 - 80, canvas.height / 2);
             context.fillText(`PRESS ENTER TO PLAY AGAIN`, canvas.width / 2 - 200, canvas.height / 3);
         }, 500);
@@ -166,7 +181,7 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
     }
 
     class Player { // CLASE PLAYER
-        constructor(x, y, color, healthPosition, hearts, name, img) {
+        constructor(x, y, color, healthPosition, health, name, img) {
             this.name = name;
             this.healthPosition = healthPosition;
             this.x = x;
@@ -179,7 +194,8 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
             this.gridY = Math.floor((this.y + this.size / 2) / gridHeigth);
             this.gridX = Math.floor((this.x + this.size / 2) / gridWidth);
             this.bombPower = 2; // NAO IMPLEMENTADO
-            this.hearts = hearts;
+            this.health = health;
+            this.hearts = [1, 1, 1, 1, 1];
             this.right = this.up = this.right = false;
             this.down = false;
             this.srcx = 0;
@@ -247,6 +263,7 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
         }
 
         placeBomb() {
+            placeBombSound.play()
             let bombx = this.gridX;
             let bomby = this.gridY;
             randMap[bomby][bombx] = 3;
@@ -267,8 +284,10 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
                     }
                 }, 450);
                 randMap[bomby][bombx] = 4;
+                // bombSound2.play()
                 if (randMap[bomby - 1][bombx] !== 1 && randMap[bomby - 1][bombx] !== 3) {
                     randMap[bomby - 1][bombx] = 4;
+                    // drawExplosion(53, 26, bombx, bomby)
                 }
                 if (randMap[bomby + 1][bombx] !== 1 && randMap[bomby + 1][bombx] !== 3) {
                     randMap[bomby + 1][bombx] = 4;
@@ -282,26 +301,30 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
             }, 2300);
         }
 
+        // drawExplosion(spritex, spritey) {
+        //     context.drawImage(explosion, spritex, spritey, 20, 20, bombx, bomby + offset, 50, 50)
+        // }
+
         checkDamage(damage = 0) {
             if (randMap[this.gridY][this.gridX] === 4) {
-                this.hearts -= 5;
+                this.health -= 1;
             }
-            this.hearts -= damage;
-            if (this.hearts < 0) {
-                this.hearts = 0;
+            this.health -= damage;
+            if (this.health < 0) {
+                this.health = 0;
+                stageComplete.play()
                 gameOver(this)
             }
-            this.hearts = Math.round(this.hearts)
-            // context.font = "26px Sen";
+            this.health = Math.round(this.health)
+            // for
             context.fillStyle = this.color;
-            // this.hearts = Math.round(this.hearts)
-            context.fillText(`${this.name}: ${this.hearts}`, this.healthPosition, 35);
+            context.fillText(`${this.health}`, this.healthPosition, 33);
         }
 
         checkEnemyDied() {
             if (randMap[this.gridY][this.gridX] === 4) {
-                this.hearts -= 1;
-                if (this.hearts < 0) {
+                this.health -= 1;
+                if (this.health < 0) {
                     return true
                 }
             }
@@ -473,8 +496,8 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
 
     menu(); // CHAMADA PARA FUNCAO DE START GAME
 
-    let newPlayer = new Player(60, 60, 'white', 120, 1000, 'Player 1', bomberman) // CRIACAO DE UM NOVO PLAYER
-    let newPlayer2 = new Player(660, 460, 'white', 530, 1000, 'Player 2', bomberman2)
+    let newPlayer = new Player(60, 60, 'white', 135, 1000, 'Player 1', bomberman) // CRIACAO DE UM NOVO PLAYER
+    let newPlayer2 = new Player(660, 460, 'white', 550, 100, 'Player 2', bomberman2)
     // let newPlayer2 = 0 // CRIACAO DE UM NOVO PLAYER
 
     let enemies = []
