@@ -37,6 +37,17 @@ h1 {
     -webkit-text-stroke: 5px black;
 }
 
+h2 {
+    font-size: 30px;
+    padding: 20px;
+}
+
+p {
+    font-size: 25px;
+    padding: 10px;
+
+}
+
 footer {
     /* background-color: rgba(0,0,0,0.8); */
     /* color: white;
