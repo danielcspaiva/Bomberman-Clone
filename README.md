@@ -2,8 +2,8 @@
 Bomberman Clone
 
 
-#Installation
+# Installation
 
-#Release history
+# Release history
 
-#contributing
+# contributing
