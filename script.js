@@ -120,7 +120,7 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
         context.font = "16px silkscreenbold";
         context.fillText(`${newPlayer.bombPower}`, 230, 40);
         context.drawImage(items, 34, 0, 16, 16, 255, 10, 30, 30)
-        context.fillText(`${newPlayer.speed - 2}`, 275, 40);
+        context.fillText(`${newPlayer.speed - 1}`, 275, 40);
         context.drawImage(items, 18, 0, 16, 16, 300, 10, 30, 30)
         context.fillText(`${newPlayer.bombs}`, 320, 40);
         if (newPlayer2) {
@@ -132,7 +132,7 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
             context.drawImage(items, 0, 0, 16, 16, 410, 10, 30, 30)
             context.fillText(`${newPlayer2.bombPower}`, 430, 40);
             context.drawImage(items, 34, 0, 16, 16, 455, 10, 30, 30)
-            context.fillText(`${newPlayer2.speed - 2}`, 470, 40);
+            context.fillText(`${newPlayer2.speed - 1}`, 470, 40);
             context.drawImage(items, 18, 0, 16, 16, 500, 10, 30, 30)
             context.fillText(`${newPlayer2.bombs}`, 520, 40);
         }
@@ -198,7 +198,7 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
             this.x = x;
             this.y = y;
             this.color = color;
-            this.speed = 3;
+            this.speed = 2;
             this.speedX = 0;
             this.speedY = 0;
             this.size = 30;

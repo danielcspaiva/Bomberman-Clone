@@ -2,7 +2,7 @@ let startSound = new Audio()
 startSound.src = './Assets/Audio/apito.wav'
 
 let level1 = new Audio()
-level1.src = './Assets/Audio/level 1.mp3'
+level1.src = './Assets/Audio/Level-1.mp3'
 
 let title = new Audio()
 title.src = './Assets/Audio/Title.mp3'
