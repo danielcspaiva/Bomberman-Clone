@@ -49,5 +49,5 @@ let randDirection = Math.floor(Math.random() * 4)
 let frames = 0;
 let offset = 50;
 
-console.log(map1[0].length)
-console.log(map1.length)
+// console.log(map1[0].length)
+// console.log(map1.length)
