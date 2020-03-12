@@ -88,7 +88,8 @@ heart.onload = new function() {
 } 
 heart.src = './Assets/Sprites/heart.png'
 
-// const drawExplosion = (spritex, spritey, x, y) => {
-//     console.log('draw explosion')
-//     context.drawImage(explosion, 51, 26, 20, 20, 50, 50, 50, 50);
-// }
+let items = new Image()
+items.onload = new function() {
+    items.ImageReady = true;
+} 
+items.src = './Assets/Sprites/items.png'

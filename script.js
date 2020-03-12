@@ -10,43 +10,13 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
         for (let i = 0; i < mapMenu[0].length; i += 1) {
             context.drawImage(solidBlock, 50 * i, 0, 50, 50)
         }
-        // context.clearRect(0, 0, canvas.width, canvas.height);
         context.drawImage(superBomberman, 100, -50, 500, 500)
         context.font = "26px silkscreenbold";
         context.fillStyle = 'white';
         context.fillText('single player', canvas.width / 2 - 100, canvas.height / 1.4);
         context.fillText('MULTI PLAYER', canvas.width / 2 - 100, canvas.height / 1.25);
-
-    //     if(players === 1) {
-    //         context.fillText('>', canvas.width / 2 - 130, canvas.height / 1.4);
-    //     }
-    //     if(players === 2) {
-    //         context.fillText('>', canvas.width / 2 - 130, canvas.height / 1.25);
-    //     }
-    //     console.log(players)
-    //     document.onkeydown = function (e) { // EVENT LISTENER PARA CAPTURAR OS COMANDOS
-    //         switch (e.keyCode) {
-    //             case 38: // arrow up
-    //                 players = 1;
-    //                 break;
-    //             case 40: // arrow down
-    //                 players = 2;
-    //                 break;
-    //         }
-    //         if (e.keyCode === 13) {
-    //             if (!start) {
-    //                 startGame();
-    //                 start = true;
-    //             } else {
-    //                 window.location.reload();
-    //             }
-    //         }
-    //     }
-    //     requestId = window.requestAnimationFrame(menu);
     }
 
-    // menu()
-// }
     const startGame = () => { // FUNCAO DE START GAME
         title.pause()
         startSound.play()
@@ -102,11 +72,20 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
                         context.drawImage(bomb, 0, 0, 19, 20, i * gridWidth, j * gridHeigth + offset, 50, 50)
                         // context.drawImage(bomberman, this.srcx, this.srcy, this.width, this.height, this.x, this.y - 10, this.width * 1.8, this.height * 1.8)
                         break;
-                        break;
                     case 4:
                         // context.fillStyle = 'red';
                         // context.fillRect(i * gridWidth + 10, j * gridHeigth + 10, gridWidth - 20, gridHeigth - 20);
                         context.drawImage(explosion, 45, 0, 20, 20, i * gridWidth, j * gridHeigth + offset, 50, 50)
+                        break;
+                    case 5:
+                        // context.fillStyle = 'red';
+                        // context.fillRect(i * gridWidth + 10, j * gridHeigth + 10,gridWidth - 20, gridHeigth - 20);
+                        context.drawImage(items, 0, 0, 16, 16, i * gridWidth + 10, j * gridHeigth + offset + 10, 30, 30)
+                        break;
+                    case 6:
+                        // context.fillStyle = 'red';
+                        // context.fillRect(i * gridWidth + 10, j * gridHeigth + 10,gridWidth - 20,gridHeigth - 20);
+                        context.drawImage(items, 18, 0, 16, 16, i * gridWidth + 10, j * gridHeigth + offset + 10, 30, 30)
                         break;
                 }
             }
@@ -119,14 +98,29 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
 
     const statusBar = () => {
         context.drawImage(cleanStatusBar, 50, 0, 650, 50)
-        context.drawImage(heart, 103, 13, 25, 25)
         context.drawImage(solidBlock, 0, 0, 50, 50)
         context.drawImage(solidBlock, 700, 0, 50, 50)
         context.drawImage(whiteHead, 65, 10, 30, 30)
+        context.fillStyle = this.color;
+        context.drawImage(heart, 103, 13, 25, 25)
+        context.fillText(`${newPlayer.health}`, 135, 33);
+        context.drawImage(items, 0, 0, 16, 16, 210, 10, 30, 30)
+        context.font = "16px silkscreenbold";
+        context.fillText(`${newPlayer.bombPower}`, 230, 40);
+        context.drawImage(items, 18, 0, 16, 16, 255, 10, 30, 30)
+        context.fillText(`${newPlayer.speed - 2}`, 275, 40);
         if (newPlayer2) {
-            context.drawImage(heart, 618, 13, 25, 25)
+            context.drawImage(heart, 545, 13, 25, 25)
             context.drawImage(blackHead, 650, 10, 30, 30);
+            context.font = "26px silkscreenbold";
+            context.fillText(`${newPlayer2.health}`, 578, 33);
+            context.font = "16px silkscreenbold";
+            context.drawImage(items, 0, 0, 16, 16, 500, 10, 30, 30)
+            context.fillText(`${newPlayer2.bombPower}`, 520, 40);
+            context.drawImage(items, 18, 0, 16, 16, 455, 10, 30, 30)
+            context.fillText(`${newPlayer2.speed - 2}`, 470, 40);
         }
+        context.font = "26px silkscreenbold";
     }
 
     const gameOver = (player) => {
@@ -156,7 +150,7 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
             newPlayer2.update();
             newPlayer2.checkDamage();
         }
-        if (frames % 150 === 0) {
+        if (frames % 250 === 0) {
             if (randMap[randy][randx] !== 0) {
                 randx = Math.floor(Math.random() * map1[0].length);
                 randy = Math.floor(Math.random() * map1.length);
@@ -194,7 +188,7 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
             this.size = 30;
             this.gridY = Math.floor((this.y + this.size / 2) / gridHeigth);
             this.gridX = Math.floor((this.x + this.size / 2) / gridWidth);
-            this.bombPower = 2; // NAO IMPLEMENTADO
+            this.bombPower = 1; // NAO IMPLEMENTADO
             this.health = health;
             this.hearts = [1, 1, 1, 1, 1];
             this.right = this.up = this.right = false;
@@ -207,41 +201,49 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
             this.direction = Math.floor(Math.random() * 4);
             this.countAnim = 0;
         }
-
+    
         update() {
             context.fillStyle = this.color;
-            // context.fillRect(this.x, this.y, this.size, this.size);
-            // console.log(this.img)
             this.sprites()
             context.drawImage(this.img, this.srcx, this.srcy, this.width, this.height, this.x, this.y - 20  + offset, this.width * 2.1, this.height * 2.1)
         }
-
+    
         newPos() {
             this.x += this.speedX;
             this.gridX = Math.floor((this.x + this.size / 2) / gridWidth);
-
+    
             this.y += this.speedY;
             this.gridY = Math.floor((this.y + this.size / 2) / gridHeigth);
-
+    
             // CHECKS COLLISION DETECTION
-            if (randMap[this.gridY - 1][this.gridX] !== 0 && randMap[this.gridY - 1][this.gridX] !== 4 && this.y < this.gridY * gridHeigth) {
+            if (randMap[this.gridY - 1][this.gridX] !== 0 && randMap[this.gridY - 1][this.gridX] !== 4 && randMap[this.gridY - 1][this.gridX] !== 5 && randMap[this.gridY - 1][this.gridX] !== 6 && this.y < this.gridY * gridHeigth) {
                 // COLISAO ACIMA
                 this.y = this.gridY * gridHeigth;
             }
-            if (randMap[this.gridY + 1][this.gridX] !== 0 && randMap[this.gridY + 1][this.gridX] !== 4 && this.y + this.size > (this.gridY + 1) * gridHeigth) {
+            if (randMap[this.gridY + 1][this.gridX] !== 0 && randMap[this.gridY + 1][this.gridX] !== 4 && randMap[this.gridY + 1][this.gridX] !== 5 && randMap[this.gridY + 1][this.gridX] !== 6 && this.y + this.size > (this.gridY + 1) * gridHeigth) {
                 // COLISAO ABAIXO
                 this.y = this.gridY * gridHeigth + gridHeigth - this.size;
             }
-            if (randMap[this.gridY][this.gridX - 1] !== 0 && randMap[this.gridY][this.gridX - 1] !== 4 && this.x < this.gridX * gridWidth) {
+            if (randMap[this.gridY][this.gridX - 1] !== 0 && randMap[this.gridY][this.gridX - 1] !== 4 && randMap[this.gridY][this.gridX - 1] !== 5 && randMap[this.gridY][this.gridX - 1] !== 6 && this.x < this.gridX * gridWidth) {
                 // COLISAO A ESQUERDA
                 this.x = this.gridX * gridWidth;
             }
-            if (randMap[this.gridY][this.gridX + 1] !== 0 && randMap[this.gridY][this.gridX + 1] !== 4 && this.x + this.size > (this.gridX + 1) * gridWidth) {
+            if (randMap[this.gridY][this.gridX + 1] !== 0 && randMap[this.gridY][this.gridX + 1] !== 4 && randMap[this.gridY][this.gridX + 1] !== 5 && randMap[this.gridY][this.gridX + 1] !== 6 && this.x + this.size > (this.gridX + 1) * gridWidth) {
                 // COLISAO A DIREITA
                 this.x = this.gridX * gridWidth + gridWidth - this.size;
             }
-        }
 
+            if (randMap[this.gridY][this.gridX] === 5) {
+                this.bombPower += 1;
+                randMap[this.gridY][this.gridX] = 0;
+            }
+
+            if (randMap[this.gridY][this.gridX] === 6) {
+                this.speed += 1;
+                randMap[this.gridY][this.gridX] = 0;
+            }
+        }
+    
         sprites() {
             if(this.down) {
                 this.srcy = 0;
@@ -262,50 +264,100 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
                 this.srcx = Math.floor(this.countAnim / 5) * (this.width + 1);
             }
         }
-
+    
         placeBomb() {
             placeBombSound.play()
             let bombx = this.gridX;
             let bomby = this.gridY;
             randMap[bomby][bombx] = 3;
+            console.log(this.bombPower)
+            let bombPower = this.bombPower
             setTimeout(function () {
                 setTimeout(function () {
                     randMap[bomby][bombx] = 0;
-                    if (randMap[bomby - 1][bombx] !== 1 && randMap[bomby - 1][bombx] !== 3) {
+                    if (randMap[bomby - 1][bombx] !== 1 && randMap[bomby - 1][bombx] !== 3 && randMap[bomby - 1][bombx] !== 5 && randMap[bomby - 1][bombx] !== 6) {
                         randMap[bomby - 1][bombx] = 0;
+                        console.log('bomb1')
+                        console.log(bombPower)
+                        // console.log(randMap[bomby - 2][bombx])
+                        if (bombPower > 1 && randMap[bomby - 2][bombx] !== 1 && randMap[bomby - 2][bombx] !== 3 && randMap[bomby - 2][bombx] !== 5 && randMap[bomby - 2][bombx] !== 6) {
+                            console.log('bomb2')
+                            randMap[bomby - 2][bombx] = 0;
+                            if(bombPower > 2 && randMap[bomby - 3][bombx] !== 1 && randMap[bomby - 3][bombx] !== 3 && randMap[bomby - 3][bombx] !== 5 && randMap[bomby - 3][bombx] !== 6) {
+                                console.log('bomb3')
+                                randMap[bomby - 3][bombx] = 0;
+                            }
+                        }
                     }
-                    if (randMap[bomby + 1][bombx] !== 1 && randMap[bomby + 1][bombx] !== 3) {
+                    if (randMap[bomby + 1][bombx] !== 1 && randMap[bomby + 1][bombx] !== 3 && randMap[bomby + 1][bombx] !== 5 && randMap[bomby + 1][bombx] !== 6) {
                         randMap[bomby + 1][bombx] = 0;
+                        if (bombPower > 1 && randMap[bomby + 2][bombx] !== 1 && randMap[bomby + 2][bombx] !== 3 && randMap[bomby + 2][bombx] !== 5 && randMap[bomby + 2][bombx] !== 6) {
+                            randMap[bomby + 2][bombx] = 0;
+                            if(bombPower > 2 && randMap[bomby + 3][bombx] !== 1 && randMap[bomby + 3][bombx] !== 3 && randMap[bomby + 3][bombx] !== 5 && randMap[bomby + 3][bombx] !== 6) {
+                                randMap[bomby + 3][bombx] = 0;
+                            }
+                        }
                     }
-                    if (randMap[bomby][bombx - 1] !== 1 && randMap[bomby][bombx - 1] !== 3) {
+                    if (randMap[bomby][bombx - 1] !== 1 && randMap[bomby][bombx - 1] !== 3 && randMap[bomby][bombx - 1] !== 5 && randMap[bomby][bombx - 1] !== 6) {
                         randMap[bomby][bombx - 1] = 0;
+                        if (bombPower > 1 && randMap[bomby][bombx - 2] !== 1 && randMap[bomby][bombx - 2] !== 3 && randMap[bomby][bombx - 2] !== 5 && randMap[bomby][bombx - 2] !== 6) {
+                            randMap[bomby][bombx - 2] = 0;
+                            if(bombPower > 2 && randMap[bomby][bombx - 3] !== 1 && randMap[bomby][bombx - 3] !== 3 && randMap[bomby][bombx - 3] !== 5 && randMap[bomby][bombx - 3] !== 6) {
+                                randMap[bomby][bombx - 3] = 0;
+                            }
+                        }
                     }
-                    if (randMap[bomby][bombx + 1] !== 1 && randMap[bomby][bombx + 1] !== 3) {
+                    if (randMap[bomby][bombx + 1] !== 1 && randMap[bomby][bombx + 1] !== 3 && randMap[bomby][bombx + 1] !== 5 && randMap[bomby][bombx + 1] !== 6) {
                         randMap[bomby][bombx + 1] = 0;
+                        if (bombPower > 1 && randMap[bomby][bombx + 2] !== 1 && randMap[bomby][bombx + 2] !== 3 && randMap[bomby][bombx + 2] !== 5 && randMap[bomby][bombx + 2] !== 6) {
+                            randMap[bomby][bombx + 2] = 0;
+                            if(bombPower > 2 && randMap[bomby][bombx + 3] !== 1 && randMap[bomby][bombx + 3] !== 3 && randMap[bomby][bombx + 3] !== 5 && randMap[bomby][bombx + 3] !== 6) {
+                                randMap[bomby][bombx + 3] = 0;
+                            }
+                        }
                     }
                 }, 450);
                 randMap[bomby][bombx] = 4;
                 bombSound2.play()
-                if (randMap[bomby - 1][bombx] !== 1 && randMap[bomby - 1][bombx] !== 3) {
+                if (randMap[bomby - 1][bombx] !== 1 && randMap[bomby - 1][bombx] !== 3 && randMap[bomby - 1][bombx] !== 5 && randMap[bomby - 1][bombx] !== 6) {
                     randMap[bomby - 1][bombx] = 4;
-                    // drawExplosion(53, 26, bombx, bomby)
+                    if (bombPower > 1 && randMap[bomby - 2][bombx] !== 1 && randMap[bomby - 2][bombx] !== 3 && randMap[bomby - 2][bombx] !== 5 && randMap[bomby - 2][bombx] !== 6) {
+                        randMap[bomby - 2][bombx] = 4;
+                        if(bombPower > 2 && randMap[bomby - 3][bombx] !== 1 && randMap[bomby - 3][bombx] !== 3 && randMap[bomby - 3][bombx] !== 5 && randMap[bomby - 3][bombx] !== 6) {
+                            randMap[bomby - 3][bombx] = 4;
+                        }
+                    }
                 }
-                if (randMap[bomby + 1][bombx] !== 1 && randMap[bomby + 1][bombx] !== 3) {
+                if (randMap[bomby + 1][bombx] !== 1 && randMap[bomby + 1][bombx] !== 3 && randMap[bomby + 1][bombx] !== 5 && randMap[bomby + 1][bombx] !== 6) {
                     randMap[bomby + 1][bombx] = 4;
+                    if (bombPower > 1 && randMap[bomby + 2][bombx] !== 1 && randMap[bomby + 2][bombx] !== 3 && randMap[bomby + 2][bombx] !== 5 && randMap[bomby + 2][bombx] !== 6) {
+                        randMap[bomby + 2][bombx] = 4;
+                        if(bombPower > 2 && randMap[bomby + 3][bombx] !== 1 && randMap[bomby + 3][bombx] !== 3 && randMap[bomby + 3][bombx] !== 5 && randMap[bomby + 3][bombx] !== 6) {
+                            randMap[bomby + 3][bombx] = 4;
+                        }
+                    }
                 }
-                if (randMap[bomby][bombx - 1] !== 1 && randMap[bomby][bombx - 1] !== 3) {
+                if (randMap[bomby][bombx - 1] !== 1 && randMap[bomby][bombx - 1] !== 3 && randMap[bomby][bombx - 1] !== 5 && randMap[bomby][bombx - 1] !== 6) {
                     randMap[bomby][bombx - 1] = 4;
+                    if (bombPower > 1 && randMap[bomby][bombx - 2] !== 1 && randMap[bomby][bombx - 2] !== 3 && randMap[bomby][bombx - 2] !== 5 && randMap[bomby][bombx - 2] !== 6) {
+                        randMap[bomby][bombx - 2] = 4;
+                        if(bombPower > 2 && randMap[bomby][bombx - 3] !== 1 && randMap[bomby][bombx - 3] !== 3 && randMap[bomby][bombx - 3] !== 5 && randMap[bomby][bombx - 3] !== 6) {
+                            randMap[bomby][bombx - 3] = 4;
+                        }
+                    }
                 }
-                if (randMap[bomby][bombx + 1] !== 1 && randMap[bomby][bombx + 1] !== 3) {
+                if (randMap[bomby][bombx + 1] !== 1 && randMap[bomby][bombx + 1] !== 3 && randMap[bomby][bombx + 1] !== 5 && randMap[bomby][bombx + 1] !== 6) {
                     randMap[bomby][bombx + 1] = 4;
+                    if (bombPower > 1 && randMap[bomby][bombx + 2] !== 1 && randMap[bomby][bombx + 2] !== 3 && randMap[bomby][bombx + 2] !== 5 && randMap[bomby][bombx + 2] !== 6) {
+                        randMap[bomby][bombx + 2] = 4;
+                        if(bombPower > 2 && randMap[bomby][bombx + 3] !== 1 && randMap[bomby][bombx + 3] !== 3 && randMap[bomby][bombx + 3] !== 5 && randMap[bomby][bombx + 3] !== 6) {
+                            randMap[bomby][bombx + 3] = 4;
+                        }
+                    }
                 }
             }, 2300);
         }
-
-        // drawExplosion(spritex, spritey) {
-        //     context.drawImage(explosion, spritex, spritey, 20, 20, bombx, bomby + offset, 50, 50)
-        // }
-
+    
         checkDamage(damage = 0) {
             if (randMap[this.gridY][this.gridX] === 4) {
                 this.health -= 1;
@@ -318,19 +370,26 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
             }
             this.health = Math.round(this.health)
             // for
-            context.fillStyle = this.color;
-            context.fillText(`${this.health}`, this.healthPosition, 33);
+            // context.fillStyle = this.color;
+            // context.fillText(`${this.health}`, this.healthPosition, 33);
         }
-
+    
         checkEnemyDied() {
             if (randMap[this.gridY][this.gridX] === 4) {
                 this.health -= 1;
                 if (this.health < 0) {
+                    if (Math.random() > 0.5){
+                        if (Math.random() > 0.5){
+                            randMap[this.gridY][this.gridX] = 5;
+                        } else {
+                            randMap[this.gridY][this.gridX] = 6;
+                        }
+                    }
                     return true
                 }
             }
         }
-
+    
         randomMove() {
             switch (this.direction) {
                 case 0:
@@ -370,10 +429,7 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
                     }
                     break;
             }
-            context.drawImage(enemy, 3, 3, 19, 30, this.x, this.y - 20 + offset, 30, 50)
-            // context.fillStyle = this.color;
-            // context.fillRect(this.x, this.y, this.size, this.size);
-
+            context.drawImage(enemy, 3, 3, 19, 30, this.x, this.y - 20 + offset, 30, 50);
         }
     }
 
