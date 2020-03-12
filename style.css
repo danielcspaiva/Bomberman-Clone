@@ -29,10 +29,8 @@ canvas {
     /* box-shadow: 0px 0px 8800px 2px rgba(0,0,0,0.75); */
     border: 15px solid black;
     /* width: 400px; */
-    width: 80vw;
-    max-width: 600px;
-    
-
+    width: 40vw;
+    /* max-width: 500px; */
 }
 
 h1 {
@@ -67,8 +65,14 @@ footer {
     padding-bottom: 10vh;
 }
 
-/* @media (max-width: 1200px) {
+@media (min-width: 1400px) {
     canvas {
-        width: 60vw;
+        width: 30vw;
+    }
+}
+
+@media (max-width: 650px) {
+    canvas {
+        width: 70vw;
     }
 } */
