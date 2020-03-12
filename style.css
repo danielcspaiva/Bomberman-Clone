@@ -6,7 +6,7 @@
 
 body {
   font-family: "silkscreenbold";
-  background: url("./Assets/Sprites/super-bomberman-r-bg.png") no-repeat center;
+  background: url("./Assets/Sprites/super-bomberman-r-bg-black.png") no-repeat center;
   background-color: black;
   background-size: cover;
   color: white;
@@ -20,7 +20,7 @@ body {
 
 canvas {
   font-family: "silkscreenbold";
-  border: 15px solid black;
+  /* border: 15px solid black; */
   width: 45vw;
 }
 
@@ -60,9 +60,16 @@ footer {
   }
 }
 
+@media (max-width: 1200px) {
+  canvas {
+    width: 60vw;
+  }
+}
+
 @media (max-width: 800px) {
   canvas {
     width: 70vw;
+    padding-bottom: 3vh;
   }
   #instructions {
     display: flex;

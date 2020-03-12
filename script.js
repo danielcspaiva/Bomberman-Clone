@@ -5,7 +5,6 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
     context = canvas.getContext("2d");
 
     const menu = () => {
-        console.log('menu');
         renderMap(mapMenu)
         for (let i = 0; i < mapMenu[0].length; i += 1) {
             context.drawImage(solidBlock, 50 * i, 0, 50, 50)
@@ -13,13 +12,14 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
         context.drawImage(superBomberman, 100, -50, 500, 500)
         context.font = "26px silkscreenbold";
         context.fillStyle = 'white';
-        context.fillText('single player', canvas.width / 2 - 100, canvas.height / 1.4);
-        context.fillText('MULTI PLAYER', canvas.width / 2 - 100, canvas.height / 1.25);
+        context.fillText('Press enter', canvas.width / 2 - 105, canvas.height / 1.55);
+        context.fillText('single player', canvas.width / 2 - 120, canvas.height / 1.35);
+        context.fillText('MULTI PLAYER', canvas.width / 2 - 110, canvas.height / 1.25);
         if (players === 1) {
-            context.fillText('>', canvas.width / 2 - 130, canvas.height / 1.4);
+            context.fillText('>', canvas.width / 2 - 145, canvas.height / 1.35);
         }
         if (players === 2) {
-            context.fillText('>', canvas.width / 2 - 130, canvas.height / 1.25);
+            context.fillText('>', canvas.width / 2 - 135, canvas.height / 1.25);
         }
         requestId2 = window.requestAnimationFrame(menu);
     }
@@ -139,8 +139,8 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
                 context.fillText(`PRESS ENTER TO PLAY AGAIN`, 120, 320);
             }
             if (players === 1) {
-                context.fillText(`GAME OVER!`, 280, canvas.height / 2 - 10);
-                context.fillText(`PRESS ENTER TO PLAY AGAIN`, 120, 320);
+                context.fillText(`GAME OVER!`, 280, canvas.height / 2 - 50);
+                context.fillText(`PRESS ENTER TO PLAY AGAIN`, 120, 340);
             }
         }, 500);
     }
@@ -484,7 +484,7 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
                 break;
         }
         switch (e.keyCode) {
-            case 16: // left shit
+            case 81: // q
                 if (newPlayer2.bombs > 0) {
                     newPlayer2.bombs -= 1;
                     newPlayer2.placeBomb();
@@ -586,7 +586,7 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
         }
     }
 
-    let newPlayer = new Player(60, 60, 'white', 135, 1, 'Player 2', bomberman); // CRIACAO DE UM NOVO PLAYER
+    let newPlayer = new Player(60, 60, 'white', 135, 100, 'Player 2', bomberman); // CRIACAO DE UM NOVO PLAYER
     let newPlayer2 = new Player(660, 460, 'white', 550, 100, 'Player 1', bomberman2);
     let enemies = [];
 
