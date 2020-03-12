@@ -43,11 +43,8 @@ let map2 = [ // MAPA TEMPLATE 3
 
 let gridWidth = canvas.width / map1[0].length;
 let gridHeigth = 550 / map1.length;
-let randx = Math.floor(Math.random() * map1[0].length)
-let randy = Math.floor(Math.random() * map1.length)
-let randDirection = Math.floor(Math.random() * 4)
+let randx = Math.floor(Math.random() * map1[0].length);
+let randy = Math.floor(Math.random() * map1.length);
+let randDirection = Math.floor(Math.random() * 4);
 let frames = 0;
 let offset = 50;
-
-// console.log(map1[0].length)
-// console.log(map1.length)

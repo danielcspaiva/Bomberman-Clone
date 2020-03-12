@@ -21,4 +21,3 @@ bombSound2.src = './Assets/Audio/Bomb2.wav'
 
 let placeBombSound = new Audio()
 placeBombSound.src = './Assets/Audio/Place Bomb2.wav'
-

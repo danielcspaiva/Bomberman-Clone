@@ -5,7 +5,7 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
     context = canvas.getContext("2d");
 
     const menu = () => {
-        // console.log(players)
+        console.log('menu');
         renderMap(mapMenu)
         for (let i = 0; i < mapMenu[0].length; i += 1) {
             context.drawImage(solidBlock, 50 * i, 0, 50, 50)
@@ -25,6 +25,7 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
     }
 
     const startGame = () => { // FUNCAO DE START GAME
+        window.cancelAnimationFrame(requestId2);
         title.pause()
         startSound.play()
         switch (Math.floor(Math.random() * 2)) {
@@ -64,39 +65,24 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
                 context.drawImage(field, i * gridWidth, j * gridHeigth + offset, 50, 50)
                 switch (map[j][i]) {
                     case 1:
-                        // context.fillStyle = 'gray';
-                        // context.fillRect(i * gridWidth, j * gridHeigth, gridWidth, gridHeigth);
                         context.drawImage(solidBlock, i * gridWidth, j * gridHeigth + offset, 50, 50)
                         break;
                     case 2:
-                        // context.fillStyle = 'orange';
-                        // context.fillRect(i * gridWidth, j * gridHeigth, gridWidth, gridHeigth);
                         context.drawImage(wall, i * gridWidth, j * gridHeigth + offset, 50, 50)
                         break;
                     case 3:
-                        // context.fillStyle = 'black';
-                        // context.fillRect(i * gridWidth + 10, j * gridHeigth + 10, gridWidth - 20, gridHeigth - 20);
                         context.drawImage(bomb, 0, 0, 19, 20, i * gridWidth, j * gridHeigth + offset, 50, 50)
-                        // context.drawImage(bomberman, this.srcx, this.srcy, this.width, this.height, this.x, this.y - 10, this.width * 1.8, this.height * 1.8)
                         break;
                     case 4:
-                        // context.fillStyle = 'red';
-                        // context.fillRect(i * gridWidth + 10, j * gridHeigth + 10, gridWidth - 20, gridHeigth - 20);
                         context.drawImage(explosion, 45, 0, 20, 20, i * gridWidth, j * gridHeigth + offset, 50, 50)
                         break;
                     case 5:
-                        // context.fillStyle = 'red';
-                        // context.fillRect(i * gridWidth + 10, j * gridHeigth + 10,gridWidth - 20, gridHeigth - 20);
                         context.drawImage(items, 0, 0, 16, 16, i * gridWidth + 10, j * gridHeigth + offset + 10, 30, 30)
                         break;
                     case 6:
-                        // context.fillStyle = 'red';
-                        // context.fillRect(i * gridWidth + 10, j * gridHeigth + 10,gridWidth - 20,gridHeigth - 20);
                         context.drawImage(items, 34, 0, 16, 16, i * gridWidth + 10, j * gridHeigth + offset + 10, 30, 30)
                         break;
                     case 7:
-                        // context.fillStyle = 'red';
-                        // context.fillRect(i * gridWidth + 10, j * gridHeigth + 10,gridWidth - 20,gridHeigth - 20);
                         context.drawImage(items, 18, 0, 16, 16, i * gridWidth + 10, j * gridHeigth + offset + 10, 30, 30)
                         break;
                 }
@@ -148,47 +134,15 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
                 context.drawImage(solidBlock, 50 * i, 0, 50, 50)
             }
             renderMap(mapMenu);
-            context.fillText(`${player.name} LOST`, canvas.width / 2 - 80, canvas.height / 2);
-            context.fillText(`PRESS ENTER TO PLAY AGAIN`, canvas.width / 2 - 200, canvas.height / 3);
+            if (players === 2) {
+                context.fillText(`GAME OVER, ${player.name} WON!`, 130, canvas.height / 2 - 20);
+                context.fillText(`PRESS ENTER TO PLAY AGAIN`, 120, 320);
+            }
+            if (players === 1) {
+                context.fillText(`GAME OVER!`, 280, canvas.height / 2 - 10);
+                context.fillText(`PRESS ENTER TO PLAY AGAIN`, 120, 320);
+            }
         }, 500);
-    }
-
-    const updateGameArea = () => { // FUNCAO QUE ATUALIZA O CANVAS
-        frames += 1;
-        clear();
-        renderMap(randMap);
-        statusBar();
-        newPlayer.newPos();
-        newPlayer.update();
-        newPlayer.checkDamage();
-        if (newPlayer2) {
-            newPlayer2.newPos();
-            newPlayer2.update();
-            newPlayer2.checkDamage();
-        }
-        if (frames % 150 === 0) {
-            if (randMap[randy][randx] !== 0) {
-                randx = Math.floor(Math.random() * map1[0].length);
-                randy = Math.floor(Math.random() * map1.length);
-            } else {
-                enemies.push(new Player(randx * 50 + 10, randy * 50 + 10, 'white', 100, 5, enemies))
-                randx = Math.floor(Math.random() * map1[0].length);
-                randy = Math.floor(Math.random() * map1.length);
-            }
-        }
-        enemies.forEach((enemy, i) => {
-            enemy.randomMove()
-            if (enemy.gridX === newPlayer.gridX && enemy.gridY === newPlayer.gridY) {
-                newPlayer.checkDamage(1);
-            }
-            if (newPlayer2) {
-                if (enemy.gridX === newPlayer2.gridX && enemy.gridY === newPlayer2.gridY) {
-                    newPlayer2.checkDamage(1);
-                }
-            }
-            if (enemy.checkEnemyDied()) enemies.splice(i, 1);
-        });
-        requestId = window.requestAnimationFrame(updateGameArea);
     }
 
     class Player { // CLASE PLAYER
@@ -218,20 +172,20 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
             this.direction = Math.floor(Math.random() * 4);
             this.countAnim = 0;
         }
-
+    
         update() {
             context.fillStyle = this.color;
             this.sprites()
             context.drawImage(this.img, this.srcx, this.srcy, this.width, this.height, this.x, this.y - 20 + offset, this.width * 2.1, this.height * 2.1)
         }
-
+    
         newPos() {
             this.x += this.speedX;
             this.gridX = Math.floor((this.x + this.size / 2) / gridWidth);
-
+    
             this.y += this.speedY;
             this.gridY = Math.floor((this.y + this.size / 2) / gridHeigth);
-
+    
             // CHECKS COLLISION DETECTION
             if (randMap[this.gridY - 1][this.gridX] !== 0 && randMap[this.gridY - 1][this.gridX] !== 4 && randMap[this.gridY - 1][this.gridX] !== 5 && randMap[this.gridY - 1][this.gridX] !== 6 && randMap[this.gridY - 1][this.gridX] !== 7 && this.y < this.gridY * gridHeigth) {
                 // COLISAO ACIMA
@@ -241,31 +195,31 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
                 // COLISAO ABAIXO
                 this.y = this.gridY * gridHeigth + gridHeigth - this.size;
             }
-            if (randMap[this.gridY][this.gridX - 1] !== 0 && randMap[this.gridY][this.gridX - 1] !== 4 && randMap[this.gridY][this.gridX - 1] !== 5 && randMap[this.gridY][this.gridX - 1] !== 6  && randMap[this.gridY][this.gridX - 1] !== 7 && this.x < this.gridX * gridWidth) {
+            if (randMap[this.gridY][this.gridX - 1] !== 0 && randMap[this.gridY][this.gridX - 1] !== 4 && randMap[this.gridY][this.gridX - 1] !== 5 && randMap[this.gridY][this.gridX - 1] !== 6 && randMap[this.gridY][this.gridX - 1] !== 7 && this.x < this.gridX * gridWidth) {
                 // COLISAO A ESQUERDA
                 this.x = this.gridX * gridWidth;
             }
-            if (randMap[this.gridY][this.gridX + 1] !== 0 && randMap[this.gridY][this.gridX + 1] !== 4 && randMap[this.gridY][this.gridX + 1] !== 5 && randMap[this.gridY][this.gridX + 1] !== 6  && randMap[this.gridY][this.gridX + 1] !== 7 && this.x + this.size > (this.gridX + 1) * gridWidth) {
+            if (randMap[this.gridY][this.gridX + 1] !== 0 && randMap[this.gridY][this.gridX + 1] !== 4 && randMap[this.gridY][this.gridX + 1] !== 5 && randMap[this.gridY][this.gridX + 1] !== 6 && randMap[this.gridY][this.gridX + 1] !== 7 && this.x + this.size > (this.gridX + 1) * gridWidth) {
                 // COLISAO A DIREITA
                 this.x = this.gridX * gridWidth + gridWidth - this.size;
             }
-
+    
             if (randMap[this.gridY][this.gridX] === 5) {
                 this.bombPower += 1;
                 randMap[this.gridY][this.gridX] = 0;
             }
-
+    
             if (randMap[this.gridY][this.gridX] === 6) {
                 this.speed += 1;
                 randMap[this.gridY][this.gridX] = 0;
             }
-
+    
             if (randMap[this.gridY][this.gridX] === 7) {
                 this.bombs += 1;
                 randMap[this.gridY][this.gridX] = 0;
             }
         }
-
+    
         sprites() {
             if (this.down) {
                 this.srcy = 0;
@@ -279,37 +233,27 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
             if (this.left) {
                 this.srcy = 76;
             }
-            // this.countAnim = 0;
             if (this.down || this.right || this.up || this.left) {
                 this.countAnim += 1;
                 if (this.countAnim > 25) this.countAnim = 0;
                 this.srcx = Math.floor(this.countAnim / 5) * (this.width + 1);
             }
         }
-
+    
         placeBomb() {
-            console.log(this.bombs)
-
             placeBombSound.play()
             let bombx = this.gridX;
             let bomby = this.gridY;
             randMap[bomby][bombx] = 3;
-            // let bombs = this.bombs;
-            // console.log(this.bombPower)
             let bombPower = this.bombPower
             setTimeout(function () {
                 setTimeout(function () {
                     randMap[bomby][bombx] = 0;
                     if (randMap[bomby - 1][bombx] !== 1 && randMap[bomby - 1][bombx] !== 3 && randMap[bomby - 1][bombx] !== 5 && randMap[bomby - 1][bombx] !== 6 && randMap[bomby - 1][bombx] !== 7) {
                         randMap[bomby - 1][bombx] = 0;
-                        // console.log('bomb1')
-                        // console.log(bombPower)
-                        // console.log(randMap[bomby - 2][bombx])
                         if (bombPower > 1 && randMap[bomby - 2][bombx] !== 1 && randMap[bomby - 2][bombx] !== 3 && randMap[bomby - 2][bombx] !== 5 && randMap[bomby - 2][bombx] !== 6 && randMap[bomby - 2][bombx] !== 7) {
-                            // console.log('bomb2')
                             randMap[bomby - 2][bombx] = 0;
                             if (bombPower > 2 && randMap[bomby - 3][bombx] !== 1 && randMap[bomby - 3][bombx] !== 3 && randMap[bomby - 3][bombx] !== 5 && randMap[bomby - 3][bombx] !== 6 && randMap[bomby - 3][bombx] !== 7) {
-                                // console.log('bomb3')
                                 randMap[bomby - 3][bombx] = 0;
                             }
                         }
@@ -382,7 +326,7 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
                 }
             }, 2300);
         }
-
+    
         checkDamage(damage = 0) {
             if (randMap[this.gridY][this.gridX] === 4) {
                 this.health -= 1;
@@ -394,11 +338,8 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
                 gameOver(this)
             }
             this.health = Math.round(this.health)
-            // for
-            // context.fillStyle = this.color;
-            // context.fillText(`${this.health}`, this.healthPosition, 33);
         }
-
+    
         checkEnemyDied() {
             if (randMap[this.gridY][this.gridX] === 4) {
                 this.health -= 1;
@@ -420,7 +361,7 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
                 }
             }
         }
-
+    
         randomMove() {
             switch (this.direction) {
                 case 0:
@@ -464,6 +405,44 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
         }
     }
 
+    const updateGameArea = () => { // FUNCAO QUE ATUALIZA O CANVAS
+        frames += 1;
+        clear();
+        renderMap(randMap);
+        statusBar();
+        newPlayer.newPos();
+        newPlayer.update();
+        newPlayer.checkDamage();
+        if (newPlayer2) {
+            newPlayer2.newPos();
+            newPlayer2.update();
+            newPlayer2.checkDamage();
+        }
+        if (frames % 150 === 0) {
+            if (randMap[randy][randx] !== 0) {
+                randx = Math.floor(Math.random() * map1[0].length);
+                randy = Math.floor(Math.random() * map1.length);
+            } else {
+                enemies.push(new Player(randx * 50 + 10, randy * 50 + 10, 'white', 100, 5, enemies))
+                randx = Math.floor(Math.random() * map1[0].length);
+                randy = Math.floor(Math.random() * map1.length);
+            }
+        }
+        enemies.forEach((enemy, i) => {
+            enemy.randomMove()
+            if (enemy.gridX === newPlayer.gridX && enemy.gridY === newPlayer.gridY) {
+                newPlayer.checkDamage(1);
+            }
+            if (newPlayer2) {
+                if (enemy.gridX === newPlayer2.gridX && enemy.gridY === newPlayer2.gridY) {
+                    newPlayer2.checkDamage(1);
+                }
+            }
+            if (enemy.checkEnemyDied()) enemies.splice(i, 1);
+        });
+        requestId = window.requestAnimationFrame(updateGameArea);
+    }
+
     document.onkeydown = function (e) { // EVENT LISTENER PARA CAPTURAR OS COMANDOS
         switch (e.keyCode) {
             case 32: // spacebar
@@ -472,7 +451,6 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
                     newPlayer.placeBomb();
                     setTimeout(() => {
                         newPlayer.bombs += 1;
-                        console.log(newPlayer.bombs);
                     }, 2300);
                 }
                 break;
@@ -512,7 +490,6 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
                     newPlayer2.placeBomb();
                     setTimeout(() => {
                         newPlayer2.bombs += 1;
-                        console.log(newPlayer2.bombs);
                     }, 2300);
                 }
                 break;
@@ -546,9 +523,6 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
                 break;
         }
         if (!start) {
-            // console.log('if start')
-            // console.log(start)
-            // console.log(e.keycode)
             if (e.keyCode === 13) {
                 if (players === 1) {
                     newPlayer2 = 0;
@@ -556,20 +530,16 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
                     startGame();
                 }
                 if (players === 2) {
-                    // let newPlayer2 = new Player(660, 460, 'white', 550, 100, 'Player 2', bomberman2)
                     start = true;
                     startGame();
                 }
             }
             if (e.keyCode === 38) {
-                // console.log('entrou no 1')
                 players = 1;
             }
             if (e.keyCode === 40) {
-                // console.log('entrou no 2')
                 players = 2;
             }
-            // console.log(players)
         } else {
             if (e.keyCode === 13) {
                 window.location.reload();
@@ -616,13 +586,11 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
         }
     }
 
+    let newPlayer = new Player(60, 60, 'white', 135, 1, 'Player 2', bomberman); // CRIACAO DE UM NOVO PLAYER
+    let newPlayer2 = new Player(660, 460, 'white', 550, 100, 'Player 1', bomberman2);
+    let enemies = [];
+
     menu(); // CHAMADA PARA FUNCAO DE START GAME
+    
     title.play()
-
-
-    let newPlayer = new Player(60, 60, 'white', 135, 100, 'Player 1', bomberman) // CRIACAO DE UM NOVO PLAYER
-    let newPlayer2 = new Player(660, 460, 'white', 550, 100, 'Player 2', bomberman2)
-    // let newPlayer2 = 0 // CRIACAO DE UM NOVO PLAYER
-
-    let enemies = []
 }

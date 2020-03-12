@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,20 +9,34 @@
     <link rel="stylesheet" href="./web fonts/silkscreen_bold_macroman/stylesheet.css" type="text/css" charset="utf-8" />
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
-<body>   
-     <h1>Bomberman<br>Clone</h1>
-    <div id="game-board">
-        <canvas id="canvas" width="750" height="600"></canvas>
+
+<body>
+    <h1>Bomberman<br>Clone</h1>
+    <div id="content">
+        <div id="game-board">
+            <canvas id="canvas" width="750" height="600"></canvas>
+        </div>
+        <footer>
+            <h2>Instructions</h2>
+            <div id="instructions">
+                <div class="player">
+                    <h2>Player 1</h2>
+                    <p>Move: Arrow keys</p>
+                    <p>Place Bomb: Spacebar</p>
+                </div>
+                <div class="player">
+                    <h2>Player 2</h2>
+                    <p>Move: W A S D</p>
+                    <p>Place Bomb: Shift</p>
+                </div>
+            </div>
+        </footer>
     </div>
-    <footer>
-        <h2>Instructions</h2>
-        <p>Move: Arrow keys</p>
-        <p>Place Bomb: Spacebar</p>
-    </footer>
+    <script src="player.js"></script>
     <script src="script.js"></script>
     <script src="map.js"></script>
     <script src="sprite.js"></script>
     <script src="audio.js"></script>
-    <script src="player.js"></script>
 </body>
+
 </html>
