@@ -21,12 +21,12 @@ There are three Power-ups that can increase your bomb capacity, bomb reach and p
 The controls are as follows:
 
 Player 1:
-* Move: Arrow keys
-* Place Bomb: Spacebar
+* Move: Arrow keys.
+* Place Bomb: Spacebar.
 
 Player 1:
-* Move: a, w, s, d
-* Place Bomb: q
+* Move: a, w, s, d.
+* Place Bomb: q.
 
 ## Contributing
 
