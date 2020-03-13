@@ -14,7 +14,9 @@ Clone or download this repository. Run the index.html and let me know what you t
 
 ## Instructions
 
-The game has two different modes, single player and multi player. Enemies will spawn in random locations, place bombs so you can kill them. There are three Power-ups that can increase your bomb capacity, bomb reach and player speed. Everytime you kill an enemie there is an 80% chance of it dropping a power up. On multi player mode your goal is to defeat the other player. 
+The game has two different modes, single player and multi player. Enemies will spawn in random locations, place bombs so you can kill them.
+
+There are three Power-ups that can increase your bomb capacity, bomb reach and player speed. Everytime you kill an enemie there is an 80% chance of it dropping a power up. On multi player mode your goal is to defeat the other player. 
 
 The controls are as follows:
 
