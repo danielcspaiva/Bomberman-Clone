@@ -159,9 +159,8 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
             this.gridY = Math.floor((this.y + this.size / 2) / gridHeigth);
             this.gridX = Math.floor((this.x + this.size / 2) / gridWidth);
             this.bombs = 1;
-            this.bombPower = 1; // NAO IMPLEMENTADO
+            this.bombPower = 1;
             this.health = health;
-            this.hearts = [1, 1, 1, 1, 1];
             this.right = this.up = this.right = false;
             this.down = false;
             this.srcx = 0;
@@ -172,20 +171,20 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
             this.direction = Math.floor(Math.random() * 4);
             this.countAnim = 0;
         }
-    
+
         update() {
             context.fillStyle = this.color;
             this.sprites()
-            context.drawImage(this.img, this.srcx, this.srcy, this.width, this.height, this.x, this.y - 20 + offset, this.width * 2.1, this.height * 2.1)
+            context.drawImage(this.img, this.srcx, this.srcy, this.width, this.height, this.x, this.y - 20 + offset, this.width * 2.1, this.height * 2.1);
         }
-    
+
         newPos() {
             this.x += this.speedX;
             this.gridX = Math.floor((this.x + this.size / 2) / gridWidth);
-    
+
             this.y += this.speedY;
             this.gridY = Math.floor((this.y + this.size / 2) / gridHeigth);
-    
+
             // CHECKS COLLISION DETECTION
             if (randMap[this.gridY - 1][this.gridX] !== 0 && randMap[this.gridY - 1][this.gridX] !== 4 && randMap[this.gridY - 1][this.gridX] !== 5 && randMap[this.gridY - 1][this.gridX] !== 6 && randMap[this.gridY - 1][this.gridX] !== 7 && this.y < this.gridY * gridHeigth) {
                 // COLISAO ACIMA
@@ -203,23 +202,23 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
                 // COLISAO A DIREITA
                 this.x = this.gridX * gridWidth + gridWidth - this.size;
             }
-    
+
             if (randMap[this.gridY][this.gridX] === 5) {
                 this.bombPower += 1;
                 randMap[this.gridY][this.gridX] = 0;
             }
-    
+
             if (randMap[this.gridY][this.gridX] === 6) {
                 this.speed += 1;
                 randMap[this.gridY][this.gridX] = 0;
             }
-    
+
             if (randMap[this.gridY][this.gridX] === 7) {
                 this.bombs += 1;
                 randMap[this.gridY][this.gridX] = 0;
             }
         }
-    
+
         sprites() {
             if (this.down) {
                 this.srcy = 0;
@@ -239,7 +238,7 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
                 this.srcx = Math.floor(this.countAnim / 5) * (this.width + 1);
             }
         }
-    
+
         placeBomb() {
             placeBombSound.play()
             let bombx = this.gridX;
@@ -296,7 +295,7 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
                 }
             }, 2300);
         }
-    
+
         checkDamage(damage = 0) {
             if (randMap[this.gridY][this.gridX] === 4) {
                 this.health -= 1;
@@ -309,7 +308,7 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
             }
             this.health = Math.round(this.health)
         }
-    
+
         checkEnemyDied() {
             if (randMap[this.gridY][this.gridX] === 4) {
                 this.health -= 1;
@@ -331,7 +330,7 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
                 }
             }
         }
-    
+
         randomMove() {
             switch (this.direction) {
                 case 0:
@@ -561,6 +560,6 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
     let enemies = [];
 
     menu(); // CHAMADA PARA FUNCAO DE START GAME
-    
+
     title.play()
 }
