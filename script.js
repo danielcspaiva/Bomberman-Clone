@@ -64,25 +64,25 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
             for (let i = 0; i < map[0].length; i += 1) {
                 context.drawImage(field, i * gridWidth, j * gridHeigth + offset, 50, 50)
                 switch (map[j][i]) {
-                    case 1:
+                    case 1: //SOLID BLOCK
                         context.drawImage(solidBlock, i * gridWidth, j * gridHeigth + offset, 50, 50)
                         break;
-                    case 2:
+                    case 2: // WALL
                         context.drawImage(wall, i * gridWidth, j * gridHeigth + offset, 50, 50)
                         break;
-                    case 3:
+                    case 3: // BOMB
                         context.drawImage(bomb, 0, 0, 19, 20, i * gridWidth, j * gridHeigth + offset, 50, 50)
                         break;
-                    case 4:
+                    case 4: // EXPLOSION
                         context.drawImage(explosion, 45, 0, 20, 20, i * gridWidth, j * gridHeigth + offset, 50, 50)
                         break;
-                    case 5:
+                    case 5: // POWER UP 1
                         context.drawImage(items, 0, 0, 16, 16, i * gridWidth + 10, j * gridHeigth + offset + 10, 30, 30)
                         break;
-                    case 6:
+                    case 6: // POWER UP 2
                         context.drawImage(items, 34, 0, 16, 16, i * gridWidth + 10, j * gridHeigth + offset + 10, 30, 30)
                         break;
-                    case 7:
+                    case 7: // POWER UP 3
                         context.drawImage(items, 18, 0, 16, 16, i * gridWidth + 10, j * gridHeigth + offset + 10, 30, 30)
                         break;
                 }
@@ -159,7 +159,7 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
             this.gridY = Math.floor((this.y + this.size / 2) / gridHeigth);
             this.gridX = Math.floor((this.x + this.size / 2) / gridWidth);
             this.bombs = 1;
-            this.bombPower = 1; // NAO IMPLEMENTADO
+            this.bombPower = 3; // NAO IMPLEMENTADO
             this.health = health;
             this.hearts = [1, 1, 1, 1, 1];
             this.right = this.up = this.right = false;
@@ -248,40 +248,10 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
             let bombPower = this.bombPower
             setTimeout(function () {
                 setTimeout(function () {
-                    randMap[bomby][bombx] = 0;
-                    if (randMap[bomby - 1][bombx] !== 1 && randMap[bomby - 1][bombx] !== 3 && randMap[bomby - 1][bombx] !== 5 && randMap[bomby - 1][bombx] !== 6 && randMap[bomby - 1][bombx] !== 7) {
-                        randMap[bomby - 1][bombx] = 0;
-                        if (bombPower > 1 && randMap[bomby - 2][bombx] !== 1 && randMap[bomby - 2][bombx] !== 3 && randMap[bomby - 2][bombx] !== 5 && randMap[bomby - 2][bombx] !== 6 && randMap[bomby - 2][bombx] !== 7) {
-                            randMap[bomby - 2][bombx] = 0;
-                            if (bombPower > 2 && randMap[bomby - 3][bombx] !== 1 && randMap[bomby - 3][bombx] !== 3 && randMap[bomby - 3][bombx] !== 5 && randMap[bomby - 3][bombx] !== 6 && randMap[bomby - 3][bombx] !== 7) {
-                                randMap[bomby - 3][bombx] = 0;
-                            }
-                        }
-                    }
-                    if (randMap[bomby + 1][bombx] !== 1 && randMap[bomby + 1][bombx] !== 3 && randMap[bomby + 1][bombx] !== 5 && randMap[bomby + 1][bombx] !== 6 && randMap[bomby + 1][bombx] !== 7) {
-                        randMap[bomby + 1][bombx] = 0;
-                        if (bombPower > 1 && randMap[bomby + 2][bombx] !== 1 && randMap[bomby + 2][bombx] !== 3 && randMap[bomby + 2][bombx] !== 5 && randMap[bomby + 2][bombx] !== 6 && randMap[bomby + 2][bombx] !== 7) {
-                            randMap[bomby + 2][bombx] = 0;
-                            if (bombPower > 2 && randMap[bomby + 3][bombx] !== 1 && randMap[bomby + 3][bombx] !== 3 && randMap[bomby + 3][bombx] !== 5 && randMap[bomby + 3][bombx] !== 6 && randMap[bomby + 3][bombx] !== 7) {
-                                randMap[bomby + 3][bombx] = 0;
-                            }
-                        }
-                    }
-                    if (randMap[bomby][bombx - 1] !== 1 && randMap[bomby][bombx - 1] !== 3 && randMap[bomby][bombx - 1] !== 5 && randMap[bomby][bombx - 1] !== 6 && randMap[bomby][bombx - 1] !== 7) {
-                        randMap[bomby][bombx - 1] = 0;
-                        if (bombPower > 1 && randMap[bomby][bombx - 2] !== 1 && randMap[bomby][bombx - 2] !== 3 && randMap[bomby][bombx - 2] !== 5 && randMap[bomby][bombx - 2] !== 6 && randMap[bomby + 1][bombx] !== 6 && randMap[bomby][bombx - 2] !== 7) {
-                            randMap[bomby][bombx - 2] = 0;
-                            if (bombPower > 2 && randMap[bomby][bombx - 3] !== 1 && randMap[bomby][bombx - 3] !== 3 && randMap[bomby][bombx - 3] !== 5 && randMap[bomby][bombx - 3] !== 6 && randMap[bomby][bombx - 3] !== 7) {
-                                randMap[bomby][bombx - 3] = 0;
-                            }
-                        }
-                    }
-                    if (randMap[bomby][bombx + 1] !== 1 && randMap[bomby][bombx + 1] !== 3 && randMap[bomby][bombx + 1] !== 5 && randMap[bomby][bombx + 1] !== 6 && randMap[bomby][bombx + 1] !== 7) {
-                        randMap[bomby][bombx + 1] = 0;
-                        if (bombPower > 1 && randMap[bomby][bombx + 2] !== 1 && randMap[bomby][bombx + 2] !== 3 && randMap[bomby][bombx + 2] !== 5 && randMap[bomby][bombx + 2] !== 6 && randMap[bomby][bombx + 2] !== 7) {
-                            randMap[bomby][bombx + 2] = 0;
-                            if (bombPower > 2 && randMap[bomby][bombx + 3] !== 1 && randMap[bomby][bombx + 3] !== 3 && randMap[bomby][bombx + 3] !== 5 && randMap[bomby][bombx + 3] !== 6 && randMap[bomby][bombx + 3] !== 7) {
-                                randMap[bomby][bombx + 3] = 0;
+                    for (let j = 0; j < randMap.length; j += 1) {
+                        for (let i = 0; i < randMap[0].length; i += 1) {
+                            if (randMap[j][i] === 4) {
+                                randMap[j][i] = 0;
                             }
                         }
                     }
