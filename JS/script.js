@@ -122,6 +122,15 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
             context.drawImage(items, 18, 0, 16, 16, 500, 10, 30, 30)
             context.fillText(`${newPlayer2.bombs}`, 520, 40);
         }
+        if (!newPlayer2) {
+            context.drawImage(enemy, 0, 0, 22, 36, 655, -2, 22 * 1.3, 36 * 1.3)
+            context.font = "26px silkscreenbold";
+            if (newPlayer.enemiesKilled < 10) {
+                context.fillText(`0${newPlayer.enemiesKilled}`, 608, 32);
+            } else {
+                context.fillText(`${newPlayer.enemiesKilled}`, 608, 32);
+            }
+        }
         context.font = "26px silkscreenbold";
     }
 
@@ -140,7 +149,8 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
             }
             if (players === 1) {
                 context.fillText(`GAME OVER!`, 280, canvas.height / 2 - 50);
-                context.fillText(`PRESS ENTER TO PLAY AGAIN`, 120, 340);
+                context.fillText(`YOUR FINAL SCORE IS ${newPlayer.enemiesKilled}`, 155, canvas.height / 2);
+                context.fillText(`PRESS ENTER TO PLAY AGAIN`, 120, 350);
             }
         }, 500);
     }
@@ -170,6 +180,8 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
             this.img = img;
             this.direction = Math.floor(Math.random() * 4);
             this.countAnim = 0;
+            this.enemiesKilled = 0;
+
         }
 
         update() {
@@ -186,19 +198,47 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
             this.gridY = Math.floor((this.y + this.size / 2) / gridHeigth);
 
             // CHECKS COLLISION DETECTION
-            if (randMap[this.gridY - 1][this.gridX] !== 0 && randMap[this.gridY - 1][this.gridX] !== 4 && randMap[this.gridY - 1][this.gridX] !== 5 && randMap[this.gridY - 1][this.gridX] !== 6 && randMap[this.gridY - 1][this.gridX] !== 7 && this.y < this.gridY * gridHeigth) {
+            if (
+                randMap[this.gridY - 1][this.gridX] !== 0 &&
+                randMap[this.gridY - 1][this.gridX] !== 4 &&
+                randMap[this.gridY - 1][this.gridX] !== 5 &&
+                randMap[this.gridY - 1][this.gridX] !== 6 &&
+                randMap[this.gridY - 1][this.gridX] !== 7 &&
+                this.y < this.gridY * gridHeigth
+            ) {
                 // COLISAO ACIMA
                 this.y = this.gridY * gridHeigth;
             }
-            if (randMap[this.gridY + 1][this.gridX] !== 0 && randMap[this.gridY + 1][this.gridX] !== 4 && randMap[this.gridY + 1][this.gridX] !== 5 && randMap[this.gridY + 1][this.gridX] !== 6 && randMap[this.gridY + 1][this.gridX] !== 7 && this.y + this.size > (this.gridY + 1) * gridHeigth) {
+            if (
+                randMap[this.gridY + 1][this.gridX] !== 0 &&
+                randMap[this.gridY + 1][this.gridX] !== 4 &&
+                randMap[this.gridY + 1][this.gridX] !== 5 &&
+                randMap[this.gridY + 1][this.gridX] !== 6 &&
+                randMap[this.gridY + 1][this.gridX] !== 7 &&
+                this.y + this.size > (this.gridY + 1) * gridHeigth
+            ) {
                 // COLISAO ABAIXO
                 this.y = this.gridY * gridHeigth + gridHeigth - this.size;
             }
-            if (randMap[this.gridY][this.gridX - 1] !== 0 && randMap[this.gridY][this.gridX - 1] !== 4 && randMap[this.gridY][this.gridX - 1] !== 5 && randMap[this.gridY][this.gridX - 1] !== 6 && randMap[this.gridY][this.gridX - 1] !== 7 && this.x < this.gridX * gridWidth) {
+            if (
+                randMap[this.gridY][this.gridX - 1] !== 0 &&
+                randMap[this.gridY][this.gridX - 1] !== 4 &&
+                randMap[this.gridY][this.gridX - 1] !== 5 &&
+                randMap[this.gridY][this.gridX - 1] !== 6 &&
+                randMap[this.gridY][this.gridX - 1] !== 7 &&
+                this.x < this.gridX * gridWidth
+            ) {
                 // COLISAO A ESQUERDA
                 this.x = this.gridX * gridWidth;
             }
-            if (randMap[this.gridY][this.gridX + 1] !== 0 && randMap[this.gridY][this.gridX + 1] !== 4 && randMap[this.gridY][this.gridX + 1] !== 5 && randMap[this.gridY][this.gridX + 1] !== 6 && randMap[this.gridY][this.gridX + 1] !== 7 && this.x + this.size > (this.gridX + 1) * gridWidth) {
+            if (
+                randMap[this.gridY][this.gridX + 1] !== 0 &&
+                randMap[this.gridY][this.gridX + 1] !== 4 &&
+                randMap[this.gridY][this.gridX + 1] !== 5 &&
+                randMap[this.gridY][this.gridX + 1] !== 6 &&
+                randMap[this.gridY][this.gridX + 1] !== 7 &&
+                this.x + this.size > (this.gridX + 1) * gridWidth
+            ) {
                 // COLISAO A DIREITA
                 this.x = this.gridX * gridWidth + gridWidth - this.size;
             }
@@ -257,38 +297,118 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
                 }, 450);
                 randMap[bomby][bombx] = 4;
                 bombSound2.play()
-                if (randMap[bomby - 1][bombx] !== 1 && randMap[bomby - 1][bombx] !== 3 && randMap[bomby - 1][bombx] !== 5 && randMap[bomby - 1][bombx] !== 6 && randMap[bomby - 1][bombx] !== 7) {
+                if (
+                    randMap[bomby - 1][bombx] !== 1 &&
+                    randMap[bomby - 1][bombx] !== 3 &&
+                    randMap[bomby - 1][bombx] !== 5 &&
+                    randMap[bomby - 1][bombx] !== 6 &&
+                    randMap[bomby - 1][bombx] !== 7
+                ) {
                     randMap[bomby - 1][bombx] = 4;
-                    if (bombPower > 1 && randMap[bomby - 2][bombx] !== 1 && randMap[bomby - 2][bombx] !== 3 && randMap[bomby - 2][bombx] !== 5 && randMap[bomby - 2][bombx] !== 6 && randMap[bomby - 2][bombx] !== 7) {
+                    if (
+                        bombPower > 1 &&
+                        randMap[bomby - 2][bombx] !== 1 &&
+                        randMap[bomby - 2][bombx] !== 3 &&
+                        randMap[bomby - 2][bombx] !== 5 &&
+                        randMap[bomby - 2][bombx] !== 6 &&
+                        randMap[bomby - 2][bombx] !== 7
+                    ) {
                         randMap[bomby - 2][bombx] = 4;
-                        if (bombPower > 2 && randMap[bomby - 3][bombx] !== 1 && randMap[bomby - 3][bombx] !== 3 && randMap[bomby - 3][bombx] !== 5 && randMap[bomby - 3][bombx] !== 6 && randMap[bomby - 3][bombx] !== 7) {
+                        if (
+                            bombPower > 2 &&
+                            randMap[bomby - 3][bombx] !== 1 &&
+                            randMap[bomby - 3][bombx] !== 3 &&
+                            randMap[bomby - 3][bombx] !== 5 &&
+                            randMap[bomby - 3][bombx] !== 6 &&
+                            randMap[bomby - 3][bombx] !== 7
+                        ) {
                             randMap[bomby - 3][bombx] = 4;
                         }
                     }
                 }
-                if (randMap[bomby + 1][bombx] !== 1 && randMap[bomby + 1][bombx] !== 3 && randMap[bomby + 1][bombx] !== 5 && randMap[bomby + 1][bombx] !== 6 && randMap[bomby + 1][bombx] !== 7) {
+                if (
+                    randMap[bomby + 1][bombx] !== 1 &&
+                    randMap[bomby + 1][bombx] !== 3 &&
+                    randMap[bomby + 1][bombx] !== 5 &&
+                    randMap[bomby + 1][bombx] !== 6 &&
+                    randMap[bomby + 1][bombx] !== 7
+                ) {
                     randMap[bomby + 1][bombx] = 4;
-                    if (bombPower > 1 && randMap[bomby + 2][bombx] !== 1 && randMap[bomby + 2][bombx] !== 3 && randMap[bomby + 2][bombx] !== 5 && randMap[bomby + 2][bombx] !== 6 && randMap[bomby + 2][bombx] !== 7) {
+                    if (
+                        bombPower > 1 &&
+                        randMap[bomby + 2][bombx] !== 1 &&
+                        randMap[bomby + 2][bombx] !== 3 &&
+                        randMap[bomby + 2][bombx] !== 5 &&
+                        randMap[bomby + 2][bombx] !== 6 &&
+                        randMap[bomby + 2][bombx] !== 7
+                        ) {
                         randMap[bomby + 2][bombx] = 4;
-                        if (bombPower > 2 && randMap[bomby + 3][bombx] !== 1 && randMap[bomby + 3][bombx] !== 3 && randMap[bomby + 3][bombx] !== 5 && randMap[bomby + 3][bombx] !== 6 && randMap[bomby + 3][bombx] !== 7) {
+                        if (
+                            bombPower > 2 &&
+                            randMap[bomby + 3][bombx] !== 1 &&
+                            randMap[bomby + 3][bombx] !== 3 &&
+                            randMap[bomby + 3][bombx] !== 5 &&
+                            randMap[bomby + 3][bombx] !== 6 &&
+                            randMap[bomby + 3][bombx] !== 7
+                            ) {
                             randMap[bomby + 3][bombx] = 4;
                         }
                     }
                 }
-                if (randMap[bomby][bombx - 1] !== 1 && randMap[bomby][bombx - 1] !== 3 && randMap[bomby][bombx - 1] !== 5 && randMap[bomby][bombx - 1] !== 6 && randMap[bomby][bombx - 1] !== 7) {
+                if (
+                    randMap[bomby][bombx - 1] !== 1 &&
+                    randMap[bomby][bombx - 1] !== 3 &&
+                    randMap[bomby][bombx - 1] !== 5 &&
+                    randMap[bomby][bombx - 1] !== 6 &&
+                    randMap[bomby][bombx - 1] !== 7
+                    ) {
                     randMap[bomby][bombx - 1] = 4;
-                    if (bombPower > 1 && randMap[bomby][bombx - 2] !== 1 && randMap[bomby][bombx - 2] !== 3 && randMap[bomby][bombx - 2] !== 5 && randMap[bomby][bombx - 2] !== 6 && randMap[bomby][bombx - 2] !== 7) {
+                    if (
+                        bombPower > 1 &&
+                        randMap[bomby][bombx - 2] !== 1 &&
+                        randMap[bomby][bombx - 2] !== 3 &&
+                        randMap[bomby][bombx - 2] !== 5 &&
+                        randMap[bomby][bombx - 2] !== 6 &&
+                        randMap[bomby][bombx - 2] !== 7
+                        ) {
                         randMap[bomby][bombx - 2] = 4;
-                        if (bombPower > 2 && randMap[bomby][bombx - 3] !== 1 && randMap[bomby][bombx - 3] !== 3 && randMap[bomby][bombx - 3] !== 5 && randMap[bomby][bombx - 3] !== 6 && randMap[bomby][bombx - 3] !== 7) {
+                        if (
+                            bombPower > 2 &&
+                            randMap[bomby][bombx - 3] !== 1 &&
+                            randMap[bomby][bombx - 3] !== 3 &&
+                            randMap[bomby][bombx - 3] !== 5 &&
+                            randMap[bomby][bombx - 3] !== 6 &&
+                            randMap[bomby][bombx - 3] !== 7
+                            ) {
                             randMap[bomby][bombx - 3] = 4;
                         }
                     }
                 }
-                if (randMap[bomby][bombx + 1] !== 1 && randMap[bomby][bombx + 1] !== 3 && randMap[bomby][bombx + 1] !== 5 && randMap[bomby][bombx + 1] !== 6 && randMap[bomby][bombx + 1] !== 7) {
+                if (
+                    randMap[bomby][bombx + 1] !== 1 &&
+                    randMap[bomby][bombx + 1] !== 3 &&
+                    randMap[bomby][bombx + 1] !== 5 &&
+                    randMap[bomby][bombx + 1] !== 6 &&
+                    randMap[bomby][bombx + 1] !== 7
+                    ) {
                     randMap[bomby][bombx + 1] = 4;
-                    if (bombPower > 1 && randMap[bomby][bombx + 2] !== 1 && randMap[bomby][bombx + 2] !== 3 && randMap[bomby][bombx + 2] !== 5 && randMap[bomby][bombx + 2] !== 6 && randMap[bomby][bombx + 2] !== 7) {
+                    if (
+                        bombPower > 1 &&
+                        randMap[bomby][bombx + 2] !== 1 &&
+                        randMap[bomby][bombx + 2] !== 3 &&
+                        randMap[bomby][bombx + 2] !== 5 &&
+                        randMap[bomby][bombx + 2] !== 6 &&
+                        randMap[bomby][bombx + 2] !== 7
+                        ) {
                         randMap[bomby][bombx + 2] = 4;
-                        if (bombPower > 2 && randMap[bomby][bombx + 3] !== 1 && randMap[bomby][bombx + 3] !== 3 && randMap[bomby][bombx + 3] !== 5 && randMap[bomby][bombx + 3] !== 6 && randMap[bomby][bombx + 3] !== 7) {
+                        if (
+                            bombPower > 2 &&
+                            randMap[bomby][bombx + 3] !== 1 &&
+                            randMap[bomby][bombx + 3] !== 3 &&
+                            randMap[bomby][bombx + 3] !== 5 &&
+                            randMap[bomby][bombx + 3] !== 6 &&
+                            randMap[bomby][bombx + 3] !== 7
+                            ) {
                             randMap[bomby][bombx + 3] = 4;
                         }
                     }
@@ -407,7 +527,12 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
                     newPlayer2.checkDamage(1);
                 }
             }
-            if (enemy.checkEnemyDied()) enemies.splice(i, 1);
+            if (enemy.checkEnemyDied()) {
+                enemies.splice(i, 1);
+                newPlayer.enemiesKilled += 1;
+                console.log(newPlayer.enemiesKilled)
+            }
+            
         });
         requestId = window.requestAnimationFrame(updateGameArea);
     }

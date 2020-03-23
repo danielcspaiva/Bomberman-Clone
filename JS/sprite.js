@@ -34,6 +34,12 @@ field.onload = new function () {
 }
 field.src = './Assets/Sprites/field.png'
 
+let fieldBlue = new Image()
+fieldBlue.onload = new function () {
+    fieldBlue.ImageReady = true;
+}
+fieldBlue.src = './Assets/Sprites/field-blue.png'
+
 let wall = new Image()
 wall.onload = new function () {
     wall.ImageReady = true;
