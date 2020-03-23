@@ -530,7 +530,6 @@ window.onload = () => { // FUNCAO A SER EXECUTADA QUANDO A JANELA CARREGAR
             if (enemy.checkEnemyDied()) {
                 enemies.splice(i, 1);
                 newPlayer.enemiesKilled += 1;
-                console.log(newPlayer.enemiesKilled)
             }
             
         });
