@@ -2,7 +2,7 @@
 #### TLDR: https://danielcspaiva.github.io/Bomberman-Clone/
  
 ## Getting Started
-This project is a Bomberman clone built with vanilla Javascript, HTML and CSS as part of the Ironhack Web Development bootcamp. These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. You can also[Click here to check it out!](https://danielcspaiva.github.io/Bomberman-Clone/).
+This project is a Bomberman clone built with vanilla Javascript, HTML and CSS as part of the Ironhack Web Development bootcamp. These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. You can also [click here](https://danielcspaiva.github.io/Bomberman-Clone/) to check it out!
 
 ## Screenshot
 
@@ -14,9 +14,11 @@ Clone or download this repository. Run the index.html and let me know what you t
 
 ## Instructions
 
-The game has two different modes, single player and multi player. Enemies will spawn in random locations, place bombs so you can kill them.
+You control a character that places bombs that explode after a few seconds and can kill enemies. Enemies will spawn in random locations, wander around and give you damage if they touch you, so avoid them and kill them with your bombs.
 
-There are three Power-ups that can increase your bomb capacity, bomb reach and player speed. Everytime you kill an enemie there is an 80% chance of it dropping a power up. On multi player mode your goal is to defeat the other player. 
+Everytime you kill an enemie there is an 80% chance of it dropping a power up. There are three Power-ups that can increase your bomb capacity, bomb reach and player speed.
+
+On single player mode your goal is to kill as many enemies as possible. On multiplayer mode your goal is to defeat the other player. 
 
 The controls are as follows:
 

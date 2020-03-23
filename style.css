@@ -67,6 +67,9 @@ footer {
 }
 
 @media (max-width: 800px) {
+  h1 {
+    font-size: 9vw;
+  }
   canvas {
     width: 70vw;
     padding-bottom: 3vh;
