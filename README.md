@@ -1,5 +1,5 @@
 # Project - 1: Bomberman Clone
-#### TLDR: https://danielcspaiva.github.io/Bomberman-Clone/
+#### TLDR: https://danielcspaiva.github.io/Ironhack-Bomberman-Clone/
  
 ## Getting Started
 This project is a Bomberman clone built with vanilla Javascript, HTML and CSS as part of the Ironhack Web Development bootcamp. These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. You can also [click here](https://danielcspaiva.github.io/Bomberman-Clone/) to check it out!
