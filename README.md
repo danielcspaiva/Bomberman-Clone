@@ -1,12 +1,14 @@
 # Project - 1: Bomberman Clone
-#### TLDR: https://danielcspaiva.github.io/Ironhack-Bomberman-Clone/
- 
+<p align="center">
+  <img src="https://media.giphy.com/media/VHlEsWemVkwVqAsAKY/giphy.gif" />
+</p>
+
+<p align="center">
+ <a href="https://danielcspaiva.github.io/Ironhack-Bomberman-Clone/">Click here to play!</a>
+</p>
+
 ## Getting Started
-This project is a Bomberman clone built with vanilla Javascript, HTML and CSS as part of the Ironhack Web Development bootcamp. These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. You can also [click here](https://danielcspaiva.github.io/Bomberman-Clone/) to check it out!
-
-## Screenshot
-
-![](Screenshots/screenshot-1.png)
+This project is a Bomberman clone built with vanilla Javascript, HTML and CSS as part of the Ironhack Web Development bootcamp. The following instructions will get you a copy of the project up and running on your local machine for development and testing purposes. You can also [click here](https://danielcspaiva.github.io/Bomberman-Clone/) to check it out!
 
 ## Installing
 
@@ -14,7 +16,7 @@ Clone or download this repository. Run the index.html and let me know what you t
 
 ## Instructions
 
-You control a character that places bombs that explode after a few seconds and can kill enemies. Enemies will spawn in random locations, wander around and give you damage if they touch you, so avoid them and kill them with your bombs.
+You control a character that places bombs that explode after a short time and can kill the enemies. Enemies will spawn in random locations, wander around and give you damage if they touch you, so avoid them and try to kill them with your bombs.
 
 Everytime you kill an enemie there is an 80% chance of it dropping a power up. There are three Power-ups that can increase your bomb capacity, bomb reach and player speed.
 
@@ -40,7 +42,7 @@ Special thanks to all Ironhack São Paulo staff and students that helped me buil
 
 ## Disclaimer
 
-This project was built solely for education purposes. I do not own any copyrights to Bomberman or any sprites or music in this project.
+This project was built solely for education purposes. I do not own any copyrights to Bomberman or any sprites or music used in this project.
 
 You can find the sprites and the music at: 
 * https://www.spriters-resource.com/snes/sbomber5/
