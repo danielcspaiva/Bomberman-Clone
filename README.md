@@ -1,4 +1,4 @@
-# Project - 1: Bomberman Clone
+# Bomberman Clone
 <p align="center">
   <img src="https://media.giphy.com/media/VHlEsWemVkwVqAsAKY/giphy.gif" />
 </p>
